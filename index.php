@@ -1,66 +1,56 @@
-<?php 
-    // Session Start
-    session_start();
-    
-    // Koneksi ke database
-    require 'function.php';
+<?php
+// Session Start
+session_start();
 
-    // Register
-    if(isset($_POST["register"])){
-        if(register($_POST)>0){
-            echo"
+// Koneksi ke database
+require 'function.php';
+
+// Register
+if (isset($_POST["register"])) {
+    if (register($_POST) > 0) {
+        echo "
                 <script>
                     alert('Selamat datang user!');
                     document.location.href = 'index.php';
                 </script>
             ";
-        } else{
-            mysqli_error($db_kabita);
-        }
+    } else {
+        mysqli_error($db_kabita);
     }
-   
+}
 
-    // Login
-    if(isset($_POST["login"])){
-        // $nama = $_POST["Nama"];
-        $_SESSION[$username] = $_POST["Username"];
-        $password = $_POST["Password"];
 
-        $pengecekan = mysqli_query($db_kabita, "SELECT * FROM users WHERE username = '$_SESSION[$username]'" );
+// Login
+if (isset($_POST["login"])) {
+    $username = $_POST["Username"]; // Store username directly
+    $password = $_POST["Password"];
 
-        // (mysqli_num_rows itu function untuk mngecek ada berapa baris yang dikembalikan dari query)
-        if(mysqli_num_rows($pengecekan)===1){
-            // kita coba cek password
-            $baris = mysqli_fetch_assoc($pengecekan);
-            // kita mendapatkan password yang ditulis oleh user dan dari database
-            if (password_verify($password, $baris["password"])){
-                // Jika benar kita memberikan akses user ke profile
-                echo"
-                    <script>
-                        alert('Selamat datang user!');
-                        document.location.href = 'index.php';
-                        document.getElementById('login_button').style.display = 'none';
-                    </script>";
-                exit;
-            }
-        }else{
-            // Jika gagal
-            $error = true;
-        }
+    // Validate username (optional)
+
+    if (!empty($username)) {  // Check if username is not empty
+        $_SESSION['username'] = $username;
+
+        $pengecekan = mysqli_query($db_kabita, "SELECT * FROM users WHERE username = '$username'");
+
+        // ... rest of your code using $username
+    } else {
+        // Handle empty username (display error message)
     }
-    
-    if(isset($error)){
-        echo "
+}
+
+
+if (isset($error)) {
+    echo "
             <script>
                 alert('Username / Password Salah!');
             </script>
         ";
-    }
+}
 
-    // Check if user is logged in
-    if(isset($_SESSION["username"])){
-        echo "<style>#login_button { display: none; }</style>";
-    }
+// Check if user is logged in
+if (isset($_SESSION["username"])) {
+    echo "<style>#login_button { display: none; }</style>";
+}
 ?>
 
 <!DOCTYPE html>
@@ -145,8 +135,7 @@
       </header> -->
 
     <header class="shadow fixed top-0 w-full z-10 h-16 bg-first">
-        <div
-            class="bg-first relative flex align-items-center flex-col overflow-hidden px-4 py-4 md:px-36 md:mx-auto md:flex-row md:items-center">
+        <div class="bg-first relative flex align-items-center flex-col overflow-hidden px-4 py-4 md:px-36 md:mx-auto md:flex-row md:items-center">
             <a href="index.html" class="flex items-center whitespace-nowrap text-2xl">
                 <!-- <span class="mr-2 text-4xl text-blue-600">
                     <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em"
@@ -167,10 +156,8 @@
                 </svg> -->
                 <i class="fa-solid fa-bars h-6 w-6 text-white"></i>
             </label>
-            <nav aria-label="Header Navigation"
-                class="peer-checked:mt-4 peer-checked:max-h-56 flex max-h-0 w-full flex-col items-center justify-between overflow-hidden transition-all md:ml-24 md:max-h-full md:flex-row md:items-start">
-                <ul
-                    class="flex flex-col items-center space-y-2 md:ml-auto md:flex-row md:space-y-0 font-poppins font-semibold">
+            <nav aria-label="Header Navigation" class="peer-checked:mt-4 peer-checked:max-h-56 flex max-h-0 w-full flex-col items-center justify-between overflow-hidden transition-all md:ml-24 md:max-h-full md:flex-row md:items-start">
+                <ul class="flex flex-col items-center space-y-2 md:ml-auto md:flex-row md:space-y-0 font-poppins font-semibold">
                     <li class="text-white border-b-2 border-first md:mr-12 hover:border-white">
                         <a href="#menu">Menu</a>
                     </li>
@@ -180,16 +167,24 @@
                     <li class="text-white border-b-2 border-first md:mr-12 hover:border-white">
                         <a href="#kritik">Kritik</a>
                     </li>
-                    
-                    <button
-                        class="text-white border-2 md:mr-12 px-4 py-2 border-white cursor-pointer hover:bg-secondary hover:border-first focus:bg-secondary focus:border-first"
-                        onclick="modal_login.showModal()" style="display: block;" id="login_button" >Login</button>
-                    <li
-                        class="text-white border-2 border-white md:mr-12 px-4 py-2 hover:bg-secondary hover:border-first focus:bg-secondary focus:border-first">
-                        <a href="dashboard.php">Dashboard</a>
-                    </li>
+
+                    <?php
+                    // Check if user is logged in (replace with your actual logic)
+
+                    if (isset($_SESSION['username'])) {
+                        // User is logged in, show "Dashboard" button
+                        echo '<li class="text-white border-2 border-white md:mr-12 px-4 py-2 hover:bg-secondary hover:border-first focus:bg-secondary focus:border-first">
+                <a href="dashboard.php">Dashboard</a>
+              </li>';
+                    } else {
+                        // User is not logged in, show "Login" button
+                        echo '<button class="text-white border-2 md:mr-12 px-4 py-2 border-white cursor-pointer hover:bg-secondary hover:border-first focus:bg-secondary focus:border-first"
+                id="login_button" onclick="modal_login.showModal()">Login</button>';
+                    }
+                    ?>
                 </ul>
             </nav>
+
         </div>
     </header>
     <!-- Modal Login  -->
@@ -202,34 +197,26 @@
                 <form id="loginForm" action="" method="post" class="flex flex-col gap-2">
                     <div class="flex flex-col">
                         <label for="username">Username</label>
-                        <input type="text" name="Username" id="username" placeholder="Masukkan username"
-                            class="w-full p-2 rounded-md bg-gray-100 focus:outline-none focus:ring focus:ring-first focus-border-first">
+                        <input type="text" name="Username" id="username" placeholder="Masukkan username" class="w-full p-2 rounded-md bg-gray-100 focus:outline-none focus:ring focus:ring-first focus-border-first">
                     </div>
                     <div class="flex flex-col">
                         <label for="password">Password</label>
                         <div class="relative">
                             <div class="absolute inset-y-0 right-0 flex items-center px-2">
                                 <input class="hidden js-password-toggle" id="toggle" type="checkbox" />
-                                <label
-                                    class="bg-gray-300 hover:bg-gray-400 rounded px-2 py-1 text-sm text-gray-600 font-mono cursor-pointer js-password-label"
-                                    for="toggle"><i class="fa-solid fa-eye"></i></label>
+                                <label class="bg-gray-300 hover:bg-gray-400 rounded px-2 py-1 text-sm text-gray-600 font-mono cursor-pointer js-password-label" for="toggle"><i class="fa-solid fa-eye"></i></label>
                             </div>
-                            <input type="password" name="Password" id="password" placeholder="Masukkan password"
-                                class="js-password w-full p-2 rounded-md bg-gray-100 focus:outline-none focus:ring focus:ring-first focus-border-first">
+                            <input type="password" name="Password" id="password" placeholder="Masukkan password" class="js-password w-full p-2 rounded-md bg-gray-100 focus:outline-none focus:ring focus:ring-first focus-border-first">
                         </div>
                         <a href="" class="mt-1 text-sm text-first hover:text-secondary">Lupa password?</a>
                         <div class="flex flex-col mt-2">
-                            <button type="submit" name="login"
-                                class="p-2 rounded-md bg-first text-white hover:bg-secondary">Login</button>
+                            <button type="submit" name="login" class="p-2 rounded-md bg-first text-white hover:bg-secondary">Login</button>
                         </div>
                     </div>
                 </form>
-                <div class="divider">atau masuk dengan</div>                
-                <button class="mt-2 flex justify-center items-center gap-2 w-full border-2 rounded-md py-1 text-black hover:bg-gray-100 hover:text-secondary"
-                    onclick="modal_register.showModal()">
-                    <svg class="w-8 aspect-square" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="Capa_1"
-                        style="enable-background:new 0 0 150 150;" version="1.1" viewBox="0 0 150 150"
-                        xml:space="preserve">
+                <div class="divider">atau masuk dengan</div>
+                <button class="mt-2 flex justify-center items-center gap-2 w-full border-2 rounded-md py-1 text-black hover:bg-gray-100 hover:text-secondary" onclick="modal_register.showModal()">
+                    <svg class="w-8 aspect-square" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="Capa_1" style="enable-background:new 0 0 150 150;" version="1.1" viewBox="0 0 150 150" xml:space="preserve">
                         <style type="text/css">
                             .st0 {
                                 fill: #1A73E8;
@@ -422,21 +409,16 @@
                             }
                         </style>
                         <g>
-                            <path class="st14"
-                                d="M120,76.1c0-3.1-0.3-6.3-0.8-9.3H75.9v17.7h24.8c-1,5.7-4.3,10.7-9.2,13.9l14.8,11.5   C115,101.8,120,90,120,76.1L120,76.1z" />
-                            <path class="st15"
-                                d="M75.9,120.9c12.4,0,22.8-4.1,30.4-11.1L91.5,98.4c-4.1,2.8-9.4,4.4-15.6,4.4c-12,0-22.1-8.1-25.8-18.9   L34.9,95.6C42.7,111.1,58.5,120.9,75.9,120.9z" />
-                            <path class="st12"
-                                d="M50.1,83.8c-1.9-5.7-1.9-11.9,0-17.6L34.9,54.4c-6.5,13-6.5,28.3,0,41.2L50.1,83.8z" />
-                            <path class="st13"
-                                d="M75.9,47.3c6.5-0.1,12.9,2.4,17.6,6.9L106.6,41C98.3,33.2,87.3,29,75.9,29.1c-17.4,0-33.2,9.8-41,25.3   l15.2,11.8C53.8,55.3,63.9,47.3,75.9,47.3z" />
+                            <path class="st14" d="M120,76.1c0-3.1-0.3-6.3-0.8-9.3H75.9v17.7h24.8c-1,5.7-4.3,10.7-9.2,13.9l14.8,11.5   C115,101.8,120,90,120,76.1L120,76.1z" />
+                            <path class="st15" d="M75.9,120.9c12.4,0,22.8-4.1,30.4-11.1L91.5,98.4c-4.1,2.8-9.4,4.4-15.6,4.4c-12,0-22.1-8.1-25.8-18.9   L34.9,95.6C42.7,111.1,58.5,120.9,75.9,120.9z" />
+                            <path class="st12" d="M50.1,83.8c-1.9-5.7-1.9-11.9,0-17.6L34.9,54.4c-6.5,13-6.5,28.3,0,41.2L50.1,83.8z" />
+                            <path class="st13" d="M75.9,47.3c6.5-0.1,12.9,2.4,17.6,6.9L106.6,41C98.3,33.2,87.3,29,75.9,29.1c-17.4,0-33.2,9.8-41,25.3   l15.2,11.8C53.8,55.3,63.9,47.3,75.9,47.3z" />
                         </g>
                     </svg> Google
                 </button>
                 <div class="mt-2 text-center">
                     Belum punya akun? <form method="dialog" class="inline">
-                        <button class="text-first hover:text-secondary"
-                            onclick="modal_register.showModal()">Daftar!</button>
+                        <button class="text-first hover:text-secondary" onclick="modal_register.showModal()">Daftar!</button>
                     </form>
                 </div>
             </div>
@@ -456,38 +438,29 @@
                 <form id="loginForm" action="" method="post" class="flex flex-col gap-2">
                     <div class="flex flex-col">
                         <label for="nama">Nama</label>
-                        <input type="text" name="Nama" id="nama" placeholder="Masukkan nama"
-                            class="w-full p-2 rounded-md bg-gray-100 focus:outline-none focus:ring focus:ring-first focus-border-first">
+                        <input type="text" name="Nama" id="nama" placeholder="Masukkan nama" class="w-full p-2 rounded-md bg-gray-100 focus:outline-none focus:ring focus:ring-first focus-border-first">
                     </div>
                     <div class="flex flex-col">
                         <label for="username">Username</label>
-                        <input type="text" name="Username" id="username" placeholder="Masukkan username"
-                            class="w-full p-2 rounded-md bg-gray-100 focus:outline-none focus:ring focus:ring-first focus-border-first">
+                        <input type="text" name="Username" id="username" placeholder="Masukkan username" class="w-full p-2 rounded-md bg-gray-100 focus:outline-none focus:ring focus:ring-first focus-border-first">
                     </div>
                     <div class="flex flex-col">
                         <label for="password">Password</label>
                         <div class="relative">
                             <div class="absolute inset-y-0 right-0 flex items-center px-2">
                                 <input class="hidden js-password-toggle" id="toggle" type="checkbox" />
-                                <label
-                                    class="bg-gray-300 hover:bg-gray-400 rounded px-2 py-1 text-sm text-gray-600 font-mono cursor-pointer js-password-label"
-                                    for="toggle"><i class="fa-solid fa-eye"></i></label>
+                                <label class="bg-gray-300 hover:bg-gray-400 rounded px-2 py-1 text-sm text-gray-600 font-mono cursor-pointer js-password-label" for="toggle"><i class="fa-solid fa-eye"></i></label>
                             </div>
-                            <input type="password" name="Password" id="password" placeholder="Masukkan password"
-                                class="js-password w-full p-2 rounded-md bg-gray-100 focus:outline-none focus:ring focus:ring-first focus-border-first">
+                            <input type="password" name="Password" id="password" placeholder="Masukkan password" class="js-password w-full p-2 rounded-md bg-gray-100 focus:outline-none focus:ring focus:ring-first focus-border-first">
                         </div>
                         <div class="flex flex-col mt-4">
-                            <button type="submit" name="register"
-                                class="p-2 rounded-md bg-first text-white hover:bg-secondary">Daftar</button>
+                            <button type="submit" name="register" class="p-2 rounded-md bg-first text-white hover:bg-secondary">Daftar</button>
                         </div>
                     </div>
                 </form>
-                <div class="divider">atau daftar dengan</div>                
-                <button class="mt-2 flex justify-center items-center gap-2 w-full border-2 rounded-md py-1 text-black hover:bg-gray-100 hover:text-secondary"
-                    onclick="modal_register.showModal()">
-                    <svg class="w-8 aspect-square" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="Capa_1"
-                        style="enable-background:new 0 0 150 150;" version="1.1" viewBox="0 0 150 150"
-                        xml:space="preserve">
+                <div class="divider">atau daftar dengan</div>
+                <button class="mt-2 flex justify-center items-center gap-2 w-full border-2 rounded-md py-1 text-black hover:bg-gray-100 hover:text-secondary" onclick="modal_register.showModal()">
+                    <svg class="w-8 aspect-square" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="Capa_1" style="enable-background:new 0 0 150 150;" version="1.1" viewBox="0 0 150 150" xml:space="preserve">
                         <style type="text/css">
                             .st0 {
                                 fill: #1A73E8;
@@ -680,21 +653,16 @@
                             }
                         </style>
                         <g>
-                            <path class="st14"
-                                d="M120,76.1c0-3.1-0.3-6.3-0.8-9.3H75.9v17.7h24.8c-1,5.7-4.3,10.7-9.2,13.9l14.8,11.5   C115,101.8,120,90,120,76.1L120,76.1z" />
-                            <path class="st15"
-                                d="M75.9,120.9c12.4,0,22.8-4.1,30.4-11.1L91.5,98.4c-4.1,2.8-9.4,4.4-15.6,4.4c-12,0-22.1-8.1-25.8-18.9   L34.9,95.6C42.7,111.1,58.5,120.9,75.9,120.9z" />
-                            <path class="st12"
-                                d="M50.1,83.8c-1.9-5.7-1.9-11.9,0-17.6L34.9,54.4c-6.5,13-6.5,28.3,0,41.2L50.1,83.8z" />
-                            <path class="st13"
-                                d="M75.9,47.3c6.5-0.1,12.9,2.4,17.6,6.9L106.6,41C98.3,33.2,87.3,29,75.9,29.1c-17.4,0-33.2,9.8-41,25.3   l15.2,11.8C53.8,55.3,63.9,47.3,75.9,47.3z" />
+                            <path class="st14" d="M120,76.1c0-3.1-0.3-6.3-0.8-9.3H75.9v17.7h24.8c-1,5.7-4.3,10.7-9.2,13.9l14.8,11.5   C115,101.8,120,90,120,76.1L120,76.1z" />
+                            <path class="st15" d="M75.9,120.9c12.4,0,22.8-4.1,30.4-11.1L91.5,98.4c-4.1,2.8-9.4,4.4-15.6,4.4c-12,0-22.1-8.1-25.8-18.9   L34.9,95.6C42.7,111.1,58.5,120.9,75.9,120.9z" />
+                            <path class="st12" d="M50.1,83.8c-1.9-5.7-1.9-11.9,0-17.6L34.9,54.4c-6.5,13-6.5,28.3,0,41.2L50.1,83.8z" />
+                            <path class="st13" d="M75.9,47.3c6.5-0.1,12.9,2.4,17.6,6.9L106.6,41C98.3,33.2,87.3,29,75.9,29.1c-17.4,0-33.2,9.8-41,25.3   l15.2,11.8C53.8,55.3,63.9,47.3,75.9,47.3z" />
                         </g>
                     </svg> Google
                 </button>
                 <div class="mt-2 text-center">
                     Sudah punya akun? <form method="dialog" class="inline">
-                        <button class="text-first hover:text-secondary"
-                            onclick="modal_login.showModal()">Login!</button>
+                        <button class="text-first hover:text-secondary" onclick="modal_login.showModal()">Login!</button>
                     </form>
                 </div>
             </div>
@@ -758,8 +726,7 @@
     <main>
         <!-- Hero -->
         <section id="hero">
-            <div class="bg-cover bg-center h-screen relative"
-                style="background-image: url('image/indonesian-food.jpg');">
+            <div class="bg-cover bg-center h-screen relative" style="background-image: url('image/indonesian-food.jpg');">
                 <div class="absolute inset-0 bg-black opacity-50"></div>
                 <div class="absolute inset-0 flex flex-col justify-center items-center text-center">
                     <h1 class="text-white px-4 text-2xl lg:text-5xl font-poppins font-bold mb-2">Warung Kabita.
@@ -780,8 +747,7 @@
             <div class="container mx-auto flex flex-col lg:flex-row gap-5 items-start justify-center">
                 <img class="w-full lg:w-72" src="image/tentang.png" alt="">
                 <div>
-                    <h2 class="text-xl lg:text-5xl font-poppins font-bold mb-2 lg:mb-6">Warung <span
-                            class="text-red-600">Kabita.</span>
+                    <h2 class="text-xl lg:text-5xl font-poppins font-bold mb-2 lg:mb-6">Warung <span class="text-red-600">Kabita.</span>
                     </h2>
                     <p class="text-sm lg:text-lg text-justify font-poppins text-gray-700">
                         Kedai Warung Kabita merupakan kedai warung makan sunda yang memiliki harga yang sangat murah
@@ -824,10 +790,8 @@
 
                 <!-- Card -->
                 <div class="grid grid-cols-2 lg:flex lg:flex-wrap lg:justify-center gap-2 lg:gap-5">
-                    <a href="detail.html"
-                        class="flex flex-col w-full lg:w-60 bg-white rounded-lg shadow-md transition-transform duration-300 transform border-2 border-white hover:bg-gray-100 hover:scale-105">
-                        <img src="image/ayam-goreng.jpg" alt="Ayam Goreng"
-                            class="w-full object-cover mb-2 rounded-t-lg">
+                    <a href="detail.html" class="flex flex-col w-full lg:w-60 bg-white rounded-lg shadow-md transition-transform duration-300 transform border-2 border-white hover:bg-gray-100 hover:scale-105">
+                        <img src="image/ayam-goreng.jpg" alt="Ayam Goreng" class="w-full object-cover mb-2 rounded-t-lg">
                         <h3 class="text-sm lg:text-lg font-poppins font-semibold">Ayam Goreng</h3>
                         <div class="flex items-center justify-center gap-1">
                             <i class="fa-solid fa-star text-yellow-400"></i>
@@ -835,14 +799,11 @@
                         </div>
                         <div class="font-poppins text-gray-700 mb-2">Rp 10.000</div>
                         <div class="mt-auto">
-                            <button
-                                class="bg-primary rounded-md px-4 py-1 font-poppins text-white mb-4 hover:bg-secondary">Beli</button>
+                            <button class="bg-primary rounded-md px-4 py-1 font-poppins text-white mb-4 hover:bg-secondary">Beli</button>
                         </div>
                     </a>
-                    <a href="detail.html"
-                        class="flex flex-col w-full lg:w-60 bg-white rounded-lg shadow-md transition-transform duration-300 transform border-2 border-white hover:bg-gray-100 hover:scale-105">
-                        <img src="image/ayam-goreng.jpg" alt="Ayam Goreng"
-                            class="w-full object-cover mb-2 rounded-t-lg">
+                    <a href="detail.html" class="flex flex-col w-full lg:w-60 bg-white rounded-lg shadow-md transition-transform duration-300 transform border-2 border-white hover:bg-gray-100 hover:scale-105">
+                        <img src="image/ayam-goreng.jpg" alt="Ayam Goreng" class="w-full object-cover mb-2 rounded-t-lg">
                         <h3 class="text-sm lg:text-lg font-poppins font-semibold">Ayam Goreng</h3>
                         <div class="flex items-center justify-center gap-1">
                             <i class="fa-solid fa-star text-yellow-400"></i>
@@ -850,14 +811,11 @@
                         </div>
                         <div class="font-poppins text-gray-700 mb-2">Rp 10.000</div>
                         <div class="mt-auto">
-                            <button
-                                class="bg-primary rounded-md px-4 py-1 font-poppins text-white mb-4 hover:bg-secondary">Beli</button>
+                            <button class="bg-primary rounded-md px-4 py-1 font-poppins text-white mb-4 hover:bg-secondary">Beli</button>
                         </div>
                     </a>
-                    <a href="detail.html"
-                        class="flex flex-col w-full lg:w-60 bg-white rounded-lg shadow-md transition-transform duration-300 transform border-2 border-white hover:bg-gray-100 hover:scale-105">
-                        <img src="image/ayam-goreng.jpg" alt="Ayam Goreng"
-                            class="w-full object-cover mb-2 rounded-t-lg">
+                    <a href="detail.html" class="flex flex-col w-full lg:w-60 bg-white rounded-lg shadow-md transition-transform duration-300 transform border-2 border-white hover:bg-gray-100 hover:scale-105">
+                        <img src="image/ayam-goreng.jpg" alt="Ayam Goreng" class="w-full object-cover mb-2 rounded-t-lg">
                         <h3 class="text-sm lg:text-lg font-poppins font-semibold">Ayam Goreng</h3>
                         <div class="flex items-center justify-center gap-1">
                             <i class="fa-solid fa-star text-yellow-400"></i>
@@ -865,14 +823,11 @@
                         </div>
                         <div class="font-poppins text-gray-700 mb-2">Rp 10.000</div>
                         <div class="mt-auto">
-                            <button
-                                class="bg-primary rounded-md px-4 py-1 font-poppins text-white mb-4 hover:bg-secondary">Beli</button>
+                            <button class="bg-primary rounded-md px-4 py-1 font-poppins text-white mb-4 hover:bg-secondary">Beli</button>
                         </div>
                     </a>
-                    <a href="detail.html"
-                        class="flex flex-col w-full lg:w-60 bg-white rounded-lg shadow-md transition-transform duration-300 transform border-2 border-white hover:bg-gray-100 hover:scale-105">
-                        <img src="image/ayam-goreng.jpg" alt="Ayam Goreng"
-                            class="w-full object-cover mb-2 rounded-t-lg">
+                    <a href="detail.html" class="flex flex-col w-full lg:w-60 bg-white rounded-lg shadow-md transition-transform duration-300 transform border-2 border-white hover:bg-gray-100 hover:scale-105">
+                        <img src="image/ayam-goreng.jpg" alt="Ayam Goreng" class="w-full object-cover mb-2 rounded-t-lg">
                         <h3 class="text-sm lg:text-lg font-poppins font-semibold">Ayam Goreng</h3>
                         <div class="flex items-center justify-center gap-1">
                             <i class="fa-solid fa-star text-yellow-400"></i>
@@ -880,8 +835,7 @@
                         </div>
                         <div class="font-poppins text-gray-700 mb-2">Rp 10.000</div>
                         <div class="mt-auto">
-                            <button
-                                class="bg-primary rounded-md px-4 py-1 font-poppins text-white mb-4 hover:bg-secondary">Beli</button>
+                            <button class="bg-primary rounded-md px-4 py-1 font-poppins text-white mb-4 hover:bg-secondary">Beli</button>
                         </div>
                     </a>
                 </div>
@@ -896,19 +850,16 @@
                 <!-- Accordion Horizontal -->
                 <div class="flex justify-center font-poppins mb-4">
                     <div class="w-32 h-16  mx-2 flex items-center justify-center cursor-pointer">
-                        <button
-                            class="w-full py-2 border-b-4 border-first hover:text-first focus:border-first focus:text-first focus:border-first text-first">
+                        <button class="w-full py-2 border-b-4 border-first hover:text-first focus:border-first focus:text-first focus:border-first text-first">
                             All</button>
                     </div>
                     <div class="w-32 h-16  mx-2 flex items-center justify-center cursor-pointer">
-                        <button
-                            class="w-full py-2 border-b-4 border-gray-100  hover:text-first focus:border-first focus:text-first focus:border-first ">
+                        <button class="w-full py-2 border-b-4 border-gray-100  hover:text-first focus:border-first focus:text-first focus:border-first ">
                             Makanan
                         </button>
                     </div>
                     <div class="w-32 h-16  mx-2 flex items-center justify-center cursor-pointer">
-                        <button
-                            class="w-full py-2 border-b-4 border-gray-100  hover:text-first focus:border-first focus:text-first focus:border-first ">
+                        <button class="w-full py-2 border-b-4 border-gray-100  hover:text-first focus:border-first focus:text-first focus:border-first ">
                             Minuman
                         </button>
                     </div>
@@ -916,10 +867,8 @@
 
                 <!-- Card -->
                 <div class="grid grid-cols-2 lg:flex lg:flex-wrap lg:justify-center gap-2 lg:gap-5">
-                    <a href="detail.html"
-                        class="flex flex-col w-full lg:w-60 bg-white rounded-lg shadow-md transition-transform duration-300 transform border-2 border-white hover:border-first hover:-translate-y-1 delay-100">
-                        <img src="image/ayam-goreng.jpg" alt="Ayam Goreng"
-                            class="w-full object-cover mb-2 rounded-t-lg">
+                    <a href="detail.html" class="flex flex-col w-full lg:w-60 bg-white rounded-lg shadow-md transition-transform duration-300 transform border-2 border-white hover:border-first hover:-translate-y-1 delay-100">
+                        <img src="image/ayam-goreng.jpg" alt="Ayam Goreng" class="w-full object-cover mb-2 rounded-t-lg">
                         <h3 class="text-sm lg:text-lg font-poppins font-semibold">Ayam Goreng</h3>
                         <div class="flex items-center justify-center gap-1">
                             <i class="fa-solid fa-star text-yellow-400"></i>
@@ -927,14 +876,11 @@
                         </div>
                         <div class="font-poppins text-gray-700 mb-2">Rp 10.000</div>
                         <div class="mt-auto">
-                            <button
-                                class="bg-primary rounded-md px-4 py-1 font-poppins text-white mb-4 hover:bg-secondary">Beli</button>
+                            <button class="bg-primary rounded-md px-4 py-1 font-poppins text-white mb-4 hover:bg-secondary">Beli</button>
                         </div>
                     </a>
-                    <a href="detail.html"
-                        class="flex flex-col w-full lg:w-60 bg-white rounded-lg shadow-md transition-transform duration-300 transform border-2 border-white hover:border-first hover:-translate-y-1 delay-100">
-                        <img src="image/ayam-goreng.jpg" alt="Ayam Goreng"
-                            class="w-full object-cover mb-2 rounded-t-lg">
+                    <a href="detail.html" class="flex flex-col w-full lg:w-60 bg-white rounded-lg shadow-md transition-transform duration-300 transform border-2 border-white hover:border-first hover:-translate-y-1 delay-100">
+                        <img src="image/ayam-goreng.jpg" alt="Ayam Goreng" class="w-full object-cover mb-2 rounded-t-lg">
                         <h3 class="text-sm lg:text-lg font-poppins font-semibold">Ayam Goreng</h3>
                         <div class="flex items-center justify-center gap-1">
                             <i class="fa-solid fa-star text-yellow-400"></i>
@@ -942,14 +888,11 @@
                         </div>
                         <div class="font-poppins text-gray-700 mb-2">Rp 10.000</div>
                         <div class="mt-auto">
-                            <button
-                                class="bg-primary rounded-md px-4 py-1 font-poppins text-white mb-4 hover:bg-secondary">Beli</button>
+                            <button class="bg-primary rounded-md px-4 py-1 font-poppins text-white mb-4 hover:bg-secondary">Beli</button>
                         </div>
                     </a>
-                    <a href="detail.html"
-                        class="flex flex-col w-full lg:w-60 bg-white rounded-lg shadow-md transition-transform duration-300 transform border-2 border-white hover:border-first hover:-translate-y-1 delay-100">
-                        <img src="image/ayam-goreng.jpg" alt="Ayam Goreng"
-                            class="w-full object-cover mb-2 rounded-t-lg">
+                    <a href="detail.html" class="flex flex-col w-full lg:w-60 bg-white rounded-lg shadow-md transition-transform duration-300 transform border-2 border-white hover:border-first hover:-translate-y-1 delay-100">
+                        <img src="image/ayam-goreng.jpg" alt="Ayam Goreng" class="w-full object-cover mb-2 rounded-t-lg">
                         <h3 class="text-sm lg:text-lg font-poppins font-semibold">Ayam Goreng</h3>
                         <div class="flex items-center justify-center gap-1">
                             <i class="fa-solid fa-star text-yellow-400"></i>
@@ -957,14 +900,11 @@
                         </div>
                         <div class="font-poppins text-gray-700 mb-2">Rp 10.000</div>
                         <div class="mt-auto">
-                            <button
-                                class="bg-primary rounded-md px-4 py-1 font-poppins text-white mb-4 hover:bg-secondary">Beli</button>
+                            <button class="bg-primary rounded-md px-4 py-1 font-poppins text-white mb-4 hover:bg-secondary">Beli</button>
                         </div>
                     </a>
-                    <a href="detail.html"
-                        class="flex flex-col w-full lg:w-60 bg-white rounded-lg shadow-md transition-transform duration-300 transform border-2 border-white hover:border-first hover:-translate-y-1 delay-100">
-                        <img src="image/ayam-goreng.jpg" alt="Ayam Goreng"
-                            class="w-full object-cover mb-2 rounded-t-lg">
+                    <a href="detail.html" class="flex flex-col w-full lg:w-60 bg-white rounded-lg shadow-md transition-transform duration-300 transform border-2 border-white hover:border-first hover:-translate-y-1 delay-100">
+                        <img src="image/ayam-goreng.jpg" alt="Ayam Goreng" class="w-full object-cover mb-2 rounded-t-lg">
                         <h3 class="text-sm lg:text-lg font-poppins font-semibold">Ayam Goreng</h3>
                         <div class="flex items-center justify-center gap-1">
                             <i class="fa-solid fa-star text-yellow-400"></i>
@@ -972,14 +912,11 @@
                         </div>
                         <div class="font-poppins text-gray-700 mb-2">Rp 10.000</div>
                         <div class="mt-auto">
-                            <button
-                                class="bg-primary rounded-md px-4 py-1 font-poppins text-white mb-4 hover:bg-secondary">Beli</button>
+                            <button class="bg-primary rounded-md px-4 py-1 font-poppins text-white mb-4 hover:bg-secondary">Beli</button>
                         </div>
                     </a>
-                    <a href="detail.html"
-                        class="flex flex-col w-full lg:w-60 bg-white rounded-lg shadow-md transition-transform duration-300 transform border-2 border-white hover:border-first hover:-translate-y-1 delay-100">
-                        <img src="image/ayam-goreng.jpg" alt="Ayam Goreng"
-                            class="w-full object-cover mb-2 rounded-t-lg">
+                    <a href="detail.html" class="flex flex-col w-full lg:w-60 bg-white rounded-lg shadow-md transition-transform duration-300 transform border-2 border-white hover:border-first hover:-translate-y-1 delay-100">
+                        <img src="image/ayam-goreng.jpg" alt="Ayam Goreng" class="w-full object-cover mb-2 rounded-t-lg">
                         <h3 class="text-sm lg:text-lg font-poppins font-semibold">Ayam Goreng</h3>
                         <div class="flex items-center justify-center gap-1">
                             <i class="fa-solid fa-star text-yellow-400"></i>
@@ -987,14 +924,11 @@
                         </div>
                         <div class="font-poppins text-gray-700 mb-2">Rp 10.000</div>
                         <div class="mt-auto">
-                            <button
-                                class="bg-primary rounded-md px-4 py-1 font-poppins text-white mb-4 hover:bg-secondary">Beli</button>
+                            <button class="bg-primary rounded-md px-4 py-1 font-poppins text-white mb-4 hover:bg-secondary">Beli</button>
                         </div>
                     </a>
-                    <a href="detail.html"
-                        class="flex flex-col w-full lg:w-60 bg-white rounded-lg shadow-md transition-transform duration-300 transform border-2 border-white hover:border-first hover:-translate-y-1 delay-100">
-                        <img src="image/ayam-goreng.jpg" alt="Ayam Goreng"
-                            class="w-full object-cover mb-2 rounded-t-lg">
+                    <a href="detail.html" class="flex flex-col w-full lg:w-60 bg-white rounded-lg shadow-md transition-transform duration-300 transform border-2 border-white hover:border-first hover:-translate-y-1 delay-100">
+                        <img src="image/ayam-goreng.jpg" alt="Ayam Goreng" class="w-full object-cover mb-2 rounded-t-lg">
                         <h3 class="text-sm lg:text-lg font-poppins font-semibold">Ayam Goreng</h3>
                         <div class="flex items-center justify-center gap-1">
                             <i class="fa-solid fa-star text-yellow-400"></i>
@@ -1002,14 +936,11 @@
                         </div>
                         <div class="font-poppins text-gray-700 mb-2">Rp 10.000</div>
                         <div class="mt-auto">
-                            <button
-                                class="bg-primary rounded-md px-4 py-1 font-poppins text-white mb-4 hover:bg-secondary">Beli</button>
+                            <button class="bg-primary rounded-md px-4 py-1 font-poppins text-white mb-4 hover:bg-secondary">Beli</button>
                         </div>
                     </a>
-                    <a href="detail.html"
-                        class="flex flex-col w-full lg:w-60 bg-white rounded-lg shadow-md transition-transform duration-300 transform border-2 border-white hover:border-first hover:-translate-y-1 delay-100">
-                        <img src="image/ayam-goreng.jpg" alt="Ayam Goreng"
-                            class="w-full object-cover mb-2 rounded-t-lg">
+                    <a href="detail.html" class="flex flex-col w-full lg:w-60 bg-white rounded-lg shadow-md transition-transform duration-300 transform border-2 border-white hover:border-first hover:-translate-y-1 delay-100">
+                        <img src="image/ayam-goreng.jpg" alt="Ayam Goreng" class="w-full object-cover mb-2 rounded-t-lg">
                         <h3 class="text-sm lg:text-lg font-poppins font-semibold">Ayam Goreng</h3>
                         <div class="flex items-center justify-center gap-1">
                             <i class="fa-solid fa-star text-yellow-400"></i>
@@ -1017,14 +948,11 @@
                         </div>
                         <div class="font-poppins text-gray-700 mb-2">Rp 10.000</div>
                         <div class="mt-auto">
-                            <button
-                                class="bg-primary rounded-md px-4 py-1 font-poppins text-white mb-4 hover:bg-secondary">Beli</button>
+                            <button class="bg-primary rounded-md px-4 py-1 font-poppins text-white mb-4 hover:bg-secondary">Beli</button>
                         </div>
                     </a>
-                    <a href="detail.html"
-                        class="flex flex-col w-full lg:w-60 bg-white rounded-lg shadow-md transition-transform duration-300 transform border-2 border-white hover:border-first hover:-translate-y-1 delay-100">
-                        <img src="image/ayam-goreng.jpg" alt="Ayam Goreng"
-                            class="w-full object-cover mb-2 rounded-t-lg">
+                    <a href="detail.html" class="flex flex-col w-full lg:w-60 bg-white rounded-lg shadow-md transition-transform duration-300 transform border-2 border-white hover:border-first hover:-translate-y-1 delay-100">
+                        <img src="image/ayam-goreng.jpg" alt="Ayam Goreng" class="w-full object-cover mb-2 rounded-t-lg">
                         <h3 class="text-sm lg:text-lg font-poppins font-semibold">Ayam Goreng</h3>
                         <div class="flex items-center justify-center gap-1">
                             <i class="fa-solid fa-star text-yellow-400"></i>
@@ -1032,8 +960,7 @@
                         </div>
                         <div class="font-poppins text-gray-700 mb-2">Rp 10.000</div>
                         <div class="mt-auto">
-                            <button
-                                class="bg-primary rounded-md px-4 py-1 font-poppins text-white mb-4 hover:bg-secondary">Beli</button>
+                            <button class="bg-primary rounded-md px-4 py-1 font-poppins text-white mb-4 hover:bg-secondary">Beli</button>
                         </div>
                     </a>
                 </div>
@@ -1108,23 +1035,17 @@
                 </div>
                 <div class="w-full flex flex-wrap px-8 lg:px-8 pb-10 lg:pb-16">
                     <div class="flex flex-col w-full lg:w-1/2 transition duration-300 hover:drop-shadow-2xl">
-                        <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d990.8655974168457!2d106.808518!3d-6.589305!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69c57776d4956d%3A0x7d23c109e11fa013!2sWarung%20Makan%20Kabita!5e0!3m2!1sid!2sid!4v1716653576602!5m2!1sid!2sid"
-                            class="flex flex-col w-full lg:h-full rounded-lg" style="border:0;" allowfullscreen=""
-                            loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d990.8655974168457!2d106.808518!3d-6.589305!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69c57776d4956d%3A0x7d23c109e11fa013!2sWarung%20Makan%20Kabita!5e0!3m2!1sid!2sid!4v1716653576602!5m2!1sid!2sid" class="flex flex-col w-full lg:h-full rounded-lg" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                     </div>
-                    <form action=""
-                        class="flex flex-col mt-8 lg:mt-0 w-full lg:w-1/2 lg:ps-4 gap-2 rounded-lg transition duration-300 font-poppins">
+                    <form action="" class="flex flex-col mt-8 lg:mt-0 w-full lg:w-1/2 lg:ps-4 gap-2 rounded-lg transition duration-300 font-poppins">
                         <h2 class="text-xl lg:text-2xl font-bold text-center w-full">Hubungi Kami</h2>
                         <div class="flex flex-col">
                             <label for="nama">Nama</label>
-                            <input type="text" id="nama" placeholder="Masukan nama anda"
-                                class="w-full p-2 rounded-md bg-gray-100 focus:outline-none focus:ring focus:ring-first focus-border-first">
+                            <input type="text" id="nama" placeholder="Masukan nama anda" class="w-full p-2 rounded-md bg-gray-100 focus:outline-none focus:ring focus:ring-first focus-border-first">
                         </div>
                         <div class="flex flex-col">
                             <label for="telepon">No. Telepon</label>
-                            <input type="text" id="telepon" placeholder="Masukan nomor telepon anda"
-                                class="w-full p-2 rounded-md bg-gray-100 focus:outline-none focus:ring focus:ring-first focus-border-first">
+                            <input type="text" id="telepon" placeholder="Masukan nomor telepon anda" class="w-full p-2 rounded-md bg-gray-100 focus:outline-none focus:ring focus:ring-first focus-border-first">
                             <script>
                                 function formatAngka(angka) {
                                     var number_string = angka.replace(/[^,\d]/g, '').toString(); //Menghapus huruf                            
@@ -1132,29 +1053,25 @@
                                 }
 
                                 const teleponInput = document.getElementById('telepon');
-                                teleponInput.addEventListener("keyup", function (e) {
+                                teleponInput.addEventListener("keyup", function(e) {
                                     e.target.value = formatAngka(e.target.value);
                                 });
                             </script>
                         </div>
                         <div class="flex flex-col">
                             <label for="email">Email</label>
-                            <input type="email" id="email" placeholder="Masukan email anda"
-                                class="w-full p-2 rounded-md bg-gray-100 focus:outline-none focus:ring focus:ring-first focus-border-first">
+                            <input type="email" id="email" placeholder="Masukan email anda" class="w-full p-2 rounded-md bg-gray-100 focus:outline-none focus:ring focus:ring-first focus-border-first">
                         </div>
                         <div class="flex flex-col">
                             <label for="subjek">Subjek</label>
-                            <input type="text" id="subjek" placeholder="Subjek"
-                                class="w-full p-2 rounded-md bg-gray-100 focus:outline-none focus:ring focus:ring-first focus-border-first">
+                            <input type="text" id="subjek" placeholder="Subjek" class="w-full p-2 rounded-md bg-gray-100 focus:outline-none focus:ring focus:ring-first focus-border-first">
                         </div>
                         <div class="flex flex-col">
                             <label for="pesan">Pesan</label>
-                            <textarea name="" id="pesan" placeholder="Pesan anda"
-                                class="w-full p-2 rounded-md bg-gray-100 focus:outline-none focus:ring focus:ring-first focus-border-first"></textarea>
+                            <textarea name="" id="pesan" placeholder="Pesan anda" class="w-full p-2 rounded-md bg-gray-100 focus:outline-none focus:ring focus:ring-first focus-border-first"></textarea>
                         </div>
                         <div class="flex flex-col mt-4 lg:mt-auto">
-                            <button type="submit"
-                                class="p-2 rounded-md bg-first text-white hover:bg-secondary">Kirim</button>
+                            <button type="submit" class="p-2 rounded-md bg-first text-white hover:bg-secondary">Kirim</button>
                         </div>
                     </form>
                 </div>
@@ -1169,8 +1086,7 @@
                 <form action="" class="w-full flex flex-col gap-5 px-8 lg:px-8 pb-10 lg:pb-16">
                     <div class="flex flex-col">
                         <label for="puas">Apakah anda puas dengan makanannya?</label>
-                        <select name="" id="puas"
-                            class="w-full p-2 rounded-md bg-gray-100 focus:outline-none focus:ring focus:ring-first focus-border-first">
+                        <select name="" id="puas" class="w-full p-2 rounded-md bg-gray-100 focus:outline-none focus:ring focus:ring-first focus-border-first">
                             <option value="" disabled selected>Pilih</option>
                             <option value="Tidak Puas">Tidak Puas</option>
                             <option value="Puas">Puas</option>
@@ -1179,12 +1095,10 @@
                     </div>
                     <div class="flex flex-col">
                         <label for="saran">Berikan kritik & saran untuk mengembangkan website kami!</label>
-                        <textarea name="" id="saran" placeholder="Kritik & Saran"
-                            class="w-full p-2 rounded-md bg-gray-100 focus:outline-none focus:ring focus:ring-first focus-border-first"></textarea>
+                        <textarea name="" id="saran" placeholder="Kritik & Saran" class="w-full p-2 rounded-md bg-gray-100 focus:outline-none focus:ring focus:ring-first focus-border-first"></textarea>
                     </div>
                     <div class="flex flex-col">
-                        <button type="submit"
-                            class="p-2 rounded-md bg-first text-white hover:bg-secondary">Kirim</button>
+                        <button type="submit" class="p-2 rounded-md bg-first text-white hover:bg-secondary">Kirim</button>
                     </div>
                 </form>
             </div>
@@ -1236,7 +1150,7 @@
     <script src="js/tailwind.config.js"></script>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             const sections = document.querySelectorAll("section");
             // const navDivs = document.querySelectorAll("nav div div");
             // const navLinks = document.querySelectorAll("nav div div a");
@@ -1287,4 +1201,4 @@
 
 </body>
 
-</html> 
+</html>

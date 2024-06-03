@@ -1,33 +1,30 @@
-<?php 
-    session_start();
+<?php
+session_start();
 
-    // if(!isset($_SESSION["login"] )){
-    // header("Location: index.php");
-    // exit; 
-    // }
+// if(!isset($_SESSION["login"] )){
+// header("Location: index.php");
+// exit; 
+// }
 
-    require'function.php';
+require 'function.php';
 
 
-    if (isset($_POST["submit"])){
-        
-        if(Add($_POST) > 0){
-            echo "
+if (isset($_POST["submit"])) {
+
+    if (Add($_POST) > 0) {
+        echo "
                 <script>
                     alert('Data berhasil ditambahkan');
                     document.location.href = 'index.php';
-                </script>"
-            ;
-        } else {
-            echo "
+                </script>";
+    } else {
+        echo "
                 <script>
                     alert('Data gagal di tambahkan');
                     document.location.href = 'index.php';
-                </script>"
-            ;
-        };
-        
-    }
+                </script>";
+    };
+}
 
 ?>
 
@@ -58,8 +55,7 @@
     <div class="flex flex-col w-full">
         <div class="h-16">
             <header class="font-poppins shadow fixed top-0 w-full z-10 h-16 bg-white">
-                <div
-                    class="bg-white relative flex align-items-center flex-row gap-5 overflow-hidden px-4 py-4 md:px-36 md:mx-auto md:flex-row md:items-center">
+                <div class="bg-white relative flex align-items-center flex-row gap-5 overflow-hidden px-4 py-4 md:px-36 md:mx-auto md:flex-row md:items-center">
                     <a href="index.php" class="flex items-center whitespace-nowrap text-2xl">
                         <!-- <span class="mr-2 text-4xl text-blue-600">
                             <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em"
@@ -74,17 +70,15 @@
                     <div class="hidden flex flex-row w-full lg:w-96">
                         <form class="w-full mx-auto">
                             <!-- <label for="default-search"
-                                class="mb-2 text-sm font-medium text-gray-900 sr-only :text-white">Search
-                            </label> -->
-                            <div class="relative">
+                        class="mb-2 text-sm font-medium text-gray-900 sr-only :text-white">Search
+                    </label> -->
+                            <div class="relative h-full">
                                 <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                                     <i class="fa-solid fa-magnifying-glass"></i>
                                 </div>
-                                <input type="search" id="default-search"
-                                    class="block w-full px-2 py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:border-first"
-                                    placeholder="Cari di Kabita" required />
+                                <input type="search" id="default-search" class="block w-full px-2 py-2 h-full ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:border-first" placeholder="Cari di Kabita" required />
                                 <!-- <button type="submit"
-                                    class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 :bg-blue-600 :hover:bg-blue-700 :focus:ring-blue-800">Search</button> -->
+                            class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 :bg-blue-600 :hover:bg-blue-700 :focus:ring-blue-800">Search</button> -->
                             </div>
                         </form>
                     </div>
@@ -111,7 +105,7 @@
                         </div> -->
                         <div class="flex items-center gap-2 hover:bg-gray-200 py-1 px-2 rounded-md">
                             <img class="w-10 rounded-full" src="image/avatar-biru.jpg" alt="">
-                            <p class="font-semibold text-nowrap"><?= $_SESSION[$username];?></p>
+                            <p class="font-semibold text-nowrap"><?= $_SESSION['username']; ?></p>
                         </div>
                     </div>
                     <!-- <nav aria-label="Header Navigation"
@@ -137,8 +131,7 @@
         </div>
         <div class="flex">
             <div class="w-[20rem]">
-                <div
-                    class="fixed flex h-full w-[20rem] flex-col bg-white bg-clip-border p-4 text-gray-700 shadow-xl shadow-blue-gray-900/5">
+                <div class="fixed flex h-full w-[20rem] flex-col bg-white bg-clip-border p-4 text-gray-700 shadow-xl shadow-blue-gray-900/5">
                     <!-- <div class="p-4 mb-2">
                         <h5
                             class="block font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
@@ -146,39 +139,29 @@
                         </h5>
                     </div> -->
                     <nav class="flex flex-col gap-1 p-2 font-sans text-base font-normal text-blue-gray-700">
-                        <div role="button"
-                            class="font-poppins flex items-center w-full p-3 leading-tight transition-all rounded-lg outline-none text-start hover:bg-gray-200 hover:text-first focus:bg-gray-200 focus:text-first active:bg-gray-200 active:text-first">
+                        <div role="button" class="font-poppins flex items-center w-full p-3 leading-tight transition-all rounded-lg outline-none text-start hover:bg-gray-200 hover:text-first focus:bg-gray-200 focus:text-first active:bg-gray-200 active:text-first">
                             <div class="grid mr-4 place-items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                                    aria-hidden="true" class="w-5 h-5">
-                                    <path fill-rule="evenodd"
-                                        d="M2.25 2.25a.75.75 0 000 1.5H3v10.5a3 3 0 003 3h1.21l-1.172 3.513a.75.75 0 001.424.474l.329-.987h8.418l.33.987a.75.75 0 001.422-.474l-1.17-3.513H18a3 3 0 003-3V3.75h.75a.75.75 0 000-1.5H2.25zm6.04 16.5l.5-1.5h6.42l.5 1.5H8.29zm7.46-12a.75.75 0 00-1.5 0v6a.75.75 0 001.5 0v-6zm-3 2.25a.75.75 0 00-1.5 0v3.75a.75.75 0 001.5 0V9zm-3 2.25a.75.75 0 00-1.5 0v1.5a.75.75 0 001.5 0v-1.5z"
-                                        clip-rule="evenodd"></path>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="w-5 h-5">
+                                    <path fill-rule="evenodd" d="M2.25 2.25a.75.75 0 000 1.5H3v10.5a3 3 0 003 3h1.21l-1.172 3.513a.75.75 0 001.424.474l.329-.987h8.418l.33.987a.75.75 0 001.422-.474l-1.17-3.513H18a3 3 0 003-3V3.75h.75a.75.75 0 000-1.5H2.25zm6.04 16.5l.5-1.5h6.42l.5 1.5H8.29zm7.46-12a.75.75 0 00-1.5 0v6a.75.75 0 001.5 0v-6zm-3 2.25a.75.75 0 00-1.5 0v3.75a.75.75 0 001.5 0V9zm-3 2.25a.75.75 0 00-1.5 0v1.5a.75.75 0 001.5 0v-1.5z" clip-rule="evenodd"></path>
                                 </svg>
                             </div>
                             Dashboard
                         </div>
-                        <div role="button"
-                            class="text-first bg-gray-200 font-poppins flex items-center w-full p-3 leading-tight transition-all rounded-lg outline-none text-start hover:bg-gray-200 hover:text-first focus:bg-gray-200 focus:text-first active:bg-gray-200 active:text-first">
+                        <div role="button" class="text-first bg-gray-200 font-poppins flex items-center w-full p-3 leading-tight transition-all rounded-lg outline-none text-start hover:bg-gray-200 hover:text-first focus:bg-gray-200 focus:text-first active:bg-gray-200 active:text-first">
                             <div class="grid mr-4 place-items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                                    aria-hidden="true" class="w-5 h-5">
-                                    <path fill-rule="evenodd"
-                                        d="M7.5 6v.75H5.513c-.96 0-1.764.724-1.865 1.679l-1.263 12A1.875 1.875 0 004.25 22.5h15.5a1.875 1.875 0 001.865-2.071l-1.263-12a1.875 1.875 0 00-1.865-1.679H16.5V6a4.5 4.5 0 10-9 0zM12 3a3 3 0 00-3 3v.75h6V6a3 3 0 00-3-3zm-3 8.25a3 3 0 106 0v-.75a.75.75 0 011.5 0v.75a4.5 4.5 0 11-9 0v-.75a.75.75 0 011.5 0v.75z"
-                                        clip-rule="evenodd"></path>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="w-5 h-5">
+                                    <path fill-rule="evenodd" d="M7.5 6v.75H5.513c-.96 0-1.764.724-1.865 1.679l-1.263 12A1.875 1.875 0 004.25 22.5h15.5a1.875 1.875 0 001.865-2.071l-1.263-12a1.875 1.875 0 00-1.865-1.679H16.5V6a4.5 4.5 0 10-9 0zM12 3a3 3 0 00-3 3v.75h6V6a3 3 0 00-3-3zm-3 8.25a3 3 0 106 0v-.75a.75.75 0 011.5 0v.75a4.5 4.5 0 11-9 0v-.75a.75.75 0 011.5 0v.75z" clip-rule="evenodd"></path>
                                 </svg>
                             </div>
                             Data Menu
                         </div>
-                        <div role="button"
-                            class="font-poppins flex items-center w-full p-3 leading-tight transition-all rounded-lg outline-none text-start hover:bg-gray-200 hover:text-first focus:bg-gray-200 focus:text-first active:bg-gray-200 active:text-first">
+                        <div role="button" class="font-poppins flex items-center w-full p-3 leading-tight transition-all rounded-lg outline-none text-start hover:bg-gray-200 hover:text-first focus:bg-gray-200 focus:text-first active:bg-gray-200 active:text-first">
                             <div class="grid mr-4 place-items-center">
                                 <i class="fa-solid fa-money-bill-transfer"></i>
                             </div>
                             Data Transaksi
                         </div>
-                        <div role="button"
-                            class="font-poppins flex items-center w-full p-3 leading-tight transition-all rounded-lg outline-none text-start hover:bg-gray-200 hover:text-first focus:bg-gray-200 focus:text-first active:bg-gray-200 active:text-first">
+                        <div role="button" class="font-poppins flex items-center w-full p-3 leading-tight transition-all rounded-lg outline-none text-start hover:bg-gray-200 hover:text-first focus:bg-gray-200 focus:text-first active:bg-gray-200 active:text-first">
                             <div class="grid mr-4 place-items-center">
                                 <i class="fa-solid fa-comments"></i>
                             </div>
@@ -203,14 +186,10 @@
                             </div>
                         </div> -->
 
-                        <div role="button" onclick="document.location.href='logout.php'" name="logout"
-                            class="font-poppins flex items-center w-full p-3 leading-tight transition-all rounded-lg outline-none text-start hover:bg-gray-200 hover:text-first focus:bg-gray-200 focus:text-first active:bg-gray-200 active:text-first">
+                        <div role="button" onclick="document.location.href='logout.php'" name="logout" class="font-poppins flex items-center w-full p-3 leading-tight transition-all rounded-lg outline-none text-start hover:bg-gray-200 hover:text-first focus:bg-gray-200 focus:text-first active:bg-gray-200 active:text-first">
                             <div class="grid mr-4 place-items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                                    aria-hidden="true" class="w-5 h-5">
-                                    <path fill-rule="evenodd"
-                                        d="M12 2.25a.75.75 0 01.75.75v9a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM6.166 5.106a.75.75 0 010 1.06 8.25 8.25 0 1011.668 0 .75.75 0 111.06-1.06c3.808 3.807 3.808 9.98 0 13.788-3.807 3.808-9.98 3.808-13.788 0-3.808-3.807-3.808-9.98 0-13.788a.75.75 0 011.06 0z"
-                                        clip-rule="evenodd"></path>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="w-5 h-5">
+                                    <path fill-rule="evenodd" d="M12 2.25a.75.75 0 01.75.75v9a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM6.166 5.106a.75.75 0 010 1.06 8.25 8.25 0 1011.668 0 .75.75 0 111.06-1.06c3.808 3.807 3.808 9.98 0 13.788-3.807 3.808-9.98 3.808-13.788 0-3.808-3.807-3.808-9.98 0-13.788a.75.75 0 011.06 0z" clip-rule="evenodd"></path>
                                 </svg>
                             </div>
                             Log Out
@@ -218,43 +197,37 @@
                     </nav>
                 </div>
             </div>
-            <section id="dashboard"
-                class="font-poppins w-full flex flex-col mt-4 px-4 lg:px-36 pt-10 pb-20 bg-gray-100">
+            <section id="dashboard" class="font-poppins w-full flex flex-col mt-4 px-4 lg:px-36 pt-10 pb-20 bg-gray-100">
                 <div class="flex w-full mb-8">
                     <h1 class="text-3xl">Data Menu</h1>
                 </div>
                 <div class="flex flex-col gap-3 bg-white rounded-md p-8">
                     <!-- Open the modal using ID.showModal() method -->
-                    <button class="text-sm text-white px-2 py-2 bg-first hover:bg-secondary rounded-md w-32"
-                        onclick="modalTambahData.showModal()">Tambah Data</button>
+                    <button class="text-sm text-white px-2 py-2 bg-first hover:bg-secondary rounded-md w-32" onclick="modalTambahData.showModal()">Tambah Data</button>
                     <dialog id="modalTambahData" class="modal">
                         <div class="modal-box">
                             <h3 class="font-bold text-lg">Form Tambah Data</h3>
-                            <form action="" 
-                                class="flex flex-col mt-4 w-full gap-2 rounded-lg transition duration-300 font-poppins">
+                            <form action="" class="flex flex-col mt-4 w-full gap-2 rounded-lg transition duration-300 font-poppins">
                                 <div class="flex flex-col">
                                     <label for="nama">Nama</label>
-                                    <input type="text" id="nama" placeholder="Masukan nama menu"
-                                        class="w-full p-2 rounded-md bg-gray-100 focus:outline-none focus:ring focus:ring-first focus-border-first">
+                                    <input type="text" id="nama" placeholder="Masukan nama menu" class="w-full p-2 rounded-md bg-gray-100 focus:outline-none focus:ring focus:ring-first focus-border-first">
                                 </div>
                                 <div class="flex flex-col">
                                     <label for="tipe">Tipe</label>
-                                  
+
                                     <select name="tipe" id="tipe" class="w-full p-2 rounded-md bg-gray-100 focus:outline-none focus:ring focus:ring-first focus-border-first">
                                         <option value="Pilih" selected disabled>Pilih</option>
                                         <option value="Makanan">Makanan</option>
                                         <option value="Minuman">Minuman</option>
-                                    </select>                                    
+                                    </select>
                                 </div>
                                 <div class="flex flex-col">
                                     <label for="deskripsi">Deskripsi</label>
-                                    <textarea name="deskripsi" id="deskripsi" placeholder="Masukan deskripsi menu"
-                                        class="w-full p-2 rounded-md bg-gray-100 focus:outline-none focus:ring focus:ring-first focus-border-first"></textarea>
+                                    <textarea name="deskripsi" id="deskripsi" placeholder="Masukan deskripsi menu" class="w-full p-2 rounded-md bg-gray-100 focus:outline-none focus:ring focus:ring-first focus-border-first"></textarea>
                                 </div>
                                 <div class="flex flex-col">
                                     <label for="harga">Harga</label>
-                                    <input type="text" id="harga" placeholder="Masukan nomor harga anda"
-                                        class="input-number w-full p-2 rounded-md bg-gray-100 focus:outline-none focus:ring focus:ring-first focus-border-first">
+                                    <input type="text" id="harga" placeholder="Masukan nomor harga anda" class="input-number w-full p-2 rounded-md bg-gray-100 focus:outline-none focus:ring focus:ring-first focus-border-first">
                                     <script>
                                         function formatRupiah(angka, prefix) {
                                             var number_string = angka.replace(/[^,\d]/g, '').toString(), //Menghapus huruf
@@ -274,8 +247,8 @@
                                         }
 
 
-                                        document.querySelectorAll('.input-number').forEach(function (input) {
-                                            input.addEventListener('keyup', function (e) {
+                                        document.querySelectorAll('.input-number').forEach(function(input) {
+                                            input.addEventListener('keyup', function(e) {
                                                 var nilai = formatRupiah(this.value, '');
                                                 this.value = nilai.replace(/^0+/, ''); // Menghapus 0 sebelum angka selain 0
                                             });
@@ -297,22 +270,18 @@
                                             rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
                                             return prefix == undefined ? rupiah : (rupiah ? prefix + rupiah : '');
                                         }
-
                                     </script>
                                 </div>
                                 <div class="flex flex-col">
                                     <label for="stok">Stok</label>
-                                    <input type="stok" id="stok" placeholder="Masukan stok"
-                                        class="w-full p-2 rounded-md bg-gray-100 focus:outline-none focus:ring focus:ring-first focus-border-first">
+                                    <input type="stok" id="stok" placeholder="Masukan stok" class="w-full p-2 rounded-md bg-gray-100 focus:outline-none focus:ring focus:ring-first focus-border-first">
                                 </div>
                                 <div class="flex flex-col">
-                                    <label for="gambar">Gambar</label>                                   
-                                    <input type="file" id="gambar" placeholder="gambar"
-                                        class="w-full rounded-md bg-gray-100 file:mr-5 file:py-1 file:px-3 file:border-none file:w-full file:bg-gray-100 file:text-stone-700 hover:file:cursor-pointer hover:file:bg-red-50 hover:file:text-first focus:outline-none focus:ring focus:ring-first focus-border-first">
+                                    <label for="gambar">Gambar</label>
+                                    <input type="file" id="gambar" placeholder="gambar" class="w-full rounded-md bg-gray-100 file:mr-5 file:py-1 file:px-3 file:border-none file:w-full file:bg-gray-100 file:text-stone-700 hover:file:cursor-pointer hover:file:bg-red-50 hover:file:text-first focus:outline-none focus:ring focus:ring-first focus-border-first">
                                 </div>
                                 <div class="flex flex-col mt-2">
-                                    <button type="submit"
-                                        class="p-2 rounded-md bg-first text-white hover:bg-secondary">Tambah</button>
+                                    <button type="submit" class="p-2 rounded-md bg-first text-white hover:bg-secondary">Tambah</button>
                                 </div>
                             </form>
                         </div>
@@ -325,31 +294,27 @@
                     <dialog id="modalEditData" class="modal">
                         <div class="modal-box">
                             <h3 class="font-bold text-lg">Form Edit Data</h3>
-                            <form action=""
-                                class="flex flex-col mt-4 w-full gap-2 rounded-lg transition duration-300 font-poppins">
+                            <form action="" class="flex flex-col mt-4 w-full gap-2 rounded-lg transition duration-300 font-poppins">
                                 <div class="flex flex-col">
                                     <label for="nama">Nama</label>
-                                    <input type="text" id="nama" placeholder="Masukan nama menu"
-                                        class="w-full p-2 rounded-md bg-gray-100 focus:outline-none focus:ring focus:ring-first focus-border-first" value="Ayam Goreng">
+                                    <input type="text" id="nama" placeholder="Masukan nama menu" class="w-full p-2 rounded-md bg-gray-100 focus:outline-none focus:ring focus:ring-first focus-border-first" value="Ayam Goreng">
                                 </div>
                                 <div class="flex flex-col">
                                     <label for="tipe">Tipe</label>
-                                  
+
                                     <select name="tipe" id="tipe" class="w-full p-2 rounded-md bg-gray-100 focus:outline-none focus:ring focus:ring-first focus-border-first">
                                         <option value="Pilih" selected disabled>Pilih</option>
                                         <option value="Makanan" selected>Makanan</option>
                                         <option value="Minuman">Minuman</option>
-                                    </select>                                    
+                                    </select>
                                 </div>
                                 <div class="flex flex-col">
                                     <label for="deskripsi">Deskripsi</label>
-                                    <textarea name="deskripsi" id="deskripsi" placeholder="Masukan deskripsi menu"
-                                        class="w-full p-2 rounded-md bg-gray-100 focus:outline-none focus:ring focus:ring-first focus-border-first">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas, molestias.</textarea>
+                                    <textarea name="deskripsi" id="deskripsi" placeholder="Masukan deskripsi menu" class="w-full p-2 rounded-md bg-gray-100 focus:outline-none focus:ring focus:ring-first focus-border-first">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas, molestias.</textarea>
                                 </div>
                                 <div class="flex flex-col">
                                     <label for="harga">Harga</label>
-                                    <input type="text" id="harga" placeholder="Masukan nomor harga anda"
-                                        class="input-number w-full p-2 rounded-md bg-gray-100 focus:outline-none focus:ring focus:ring-first focus-border-first" value="20000">
+                                    <input type="text" id="harga" placeholder="Masukan nomor harga anda" class="input-number w-full p-2 rounded-md bg-gray-100 focus:outline-none focus:ring focus:ring-first focus-border-first" value="20000">
                                     <script>
                                         function formatRupiah(angka, prefix) {
                                             var number_string = angka.replace(/[^,\d]/g, '').toString(), //Menghapus huruf
@@ -369,8 +334,8 @@
                                         }
 
 
-                                        document.querySelectorAll('.input-number').forEach(function (input) {
-                                            input.addEventListener('keyup', function (e) {
+                                        document.querySelectorAll('.input-number').forEach(function(input) {
+                                            input.addEventListener('keyup', function(e) {
                                                 var nilai = formatRupiah(this.value, '');
                                                 this.value = nilai.replace(/^0+/, ''); // Menghapus 0 sebelum angka selain 0
                                             });
@@ -392,23 +357,19 @@
                                             rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
                                             return prefix == undefined ? rupiah : (rupiah ? prefix + rupiah : '');
                                         }
-
                                     </script>
                                 </div>
                                 <div class="flex flex-col">
                                     <label for="stok">Stok</label>
-                                    <input type="stok" id="stok" placeholder="Masukan stok"
-                                        class="w-full p-2 rounded-md bg-gray-100 focus:outline-none focus:ring focus:ring-first focus-border-first" value="20">
+                                    <input type="stok" id="stok" placeholder="Masukan stok" class="w-full p-2 rounded-md bg-gray-100 focus:outline-none focus:ring focus:ring-first focus-border-first" value="20">
                                 </div>
                                 <div class="flex flex-col">
-                                    <label for="gambar">Gambar</label> 
+                                    <label for="gambar">Gambar</label>
                                     <!-- <img class="w-4" src="image/ayam-goreng.jpg" alt="">                                   -->
-                                    <input type="file" id="gambar" placeholder="gambar"
-                                        class="w-full rounded-md bg-gray-100 file:mr-5 file:py-1 file:px-3 file:border-none file:w-full file:bg-gray-100 file:text-stone-700 hover:file:cursor-pointer hover:file:bg-red-50 hover:file:text-first focus:outline-none focus:ring focus:ring-first focus-border-first">
+                                    <input type="file" id="gambar" placeholder="gambar" class="w-full rounded-md bg-gray-100 file:mr-5 file:py-1 file:px-3 file:border-none file:w-full file:bg-gray-100 file:text-stone-700 hover:file:cursor-pointer hover:file:bg-red-50 hover:file:text-first focus:outline-none focus:ring focus:ring-first focus-border-first">
                                 </div>
                                 <div class="flex flex-col mt-2">
-                                    <button type="submit"
-                                        class="p-2 rounded-md bg-first text-white hover:bg-secondary">Tambah</button>
+                                    <button type="submit" class="p-2 rounded-md bg-first text-white hover:bg-secondary">Tambah</button>
                                 </div>
                             </form>
                         </div>
@@ -423,13 +384,10 @@
                             <div class="flex items-center justify-center h-[100px]">
                                 <i class="inline fa-solid fa-warning fa-2xl text-[100px]"></i>
                             </div>
-                            <form action=""
-                                class="flex flex-col mt-4 w-full gap-2 rounded-lg transition duration-300 font-poppins">
+                            <form action="" class="flex flex-col mt-4 w-full gap-2 rounded-lg transition duration-300 font-poppins">
                                 <div class="flex gap-3 w-full">
-                                    <button type="submit"
-                                        class="w-full p-2 rounded-md border-2 border-first bg-white text-first hover:bg-first hover:text-white">Tidak</button>
-                                    <button type="submit"
-                                        class="w-full p-2 rounded-md bg-first text-white hover:bg-secondary">Ya</button>
+                                    <button type="submit" class="w-full p-2 rounded-md border-2 border-first bg-white text-first hover:bg-first hover:text-white">Tidak</button>
+                                    <button type="submit" class="w-full p-2 rounded-md bg-first text-white hover:bg-secondary">Ya</button>
                                 </div>
                             </form>
                         </div>
@@ -442,7 +400,7 @@
                             <!-- head -->
                             <thead>
                                 <tr>
-                                    <th>#</th>  
+                                    <th>#</th>
                                     <th>Nama</th>
                                     <th class="w-52">Deskripsi</th>
                                     <th>Harga</th>
@@ -527,7 +485,7 @@
     <script src="js/tailwind.config.js"></script>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             const sections = document.querySelectorAll("section");
             // const navDivs = document.querySelectorAll("nav div div");
             // const navLinks = document.querySelectorAll("nav div div a");

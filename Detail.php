@@ -1,5 +1,20 @@
 <?php
+session_start();
 
+require 'function.php';
+
+
+// $namaUser = query("SELECT nama FROM users");
+// if(isset($_SESSION["login"])){
+//     echo '<script>document.getElementById("login_button").style.display = "none";</script>';
+// }
+
+if (isset($_SESSION['username'])) {
+    $username = $_SESSION['username'];
+    echo "Hello, " . $username . "!";
+} else {
+    // Handle case where user is not logged in
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -27,8 +42,7 @@
 
     <!-- Navbar -->
     <header class="font-poppins shadow fixed top-0 w-full z-10 h-16 bg-white">
-        <div
-            class="bg-white relative flex align-items-center flex-row gap-2 lg:gap-5 overflow-hidden px-4 py-4 md:px-36 md:mx-auto md:flex-row md:items-center">
+        <div class="bg-white relative flex align-items-center flex-row gap-2 lg:gap-5 overflow-hidden px-4 py-4 md:px-36 md:mx-auto md:flex-row md:items-center">
             <a href="dashboard.html" class="flex items-center whitespace-nowrap text-2xl">
                 <!-- <span class="mr-2 text-4xl text-blue-600">
                     <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em"
@@ -38,10 +52,9 @@
                     </svg>
                 </span> -->
                 <span class="hidden lg:block font-bold text-first">Kabita.</span>
-                <button type="button" onclick="my_modal_1.showModal()"
-                        class="lg:hidden focus:outline-none text-white hover:bg-gray-200 font-medium rounded-md text-sm w-12 aspect-square">
-                        <i class="text-black fa-solid fa-arrow-left fa-lg"></i>
-                    </button>                
+                <button type="button" onclick="my_modal_1.showModal()" class="lg:hidden focus:outline-none text-white hover:bg-gray-200 font-medium rounded-md text-sm w-12 aspect-square">
+                    <i class="text-black fa-solid fa-arrow-left fa-lg"></i>
+                </button>
                 <!-- <img class="w-32 lg:w-44" src="image/logo.png" alt=""> -->
             </a>
             <div class="flex flex-row w-full lg:w-96">
@@ -53,9 +66,7 @@
                         <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                             <i class="fa-solid fa-magnifying-glass"></i>
                         </div>
-                        <input type="search" id="default-search"
-                            class="block w-full px-2 py-2 h-full ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:border-first"
-                            placeholder="Cari di Kabita" required />
+                        <input type="search" id="default-search" class="block w-full pe-2 py-2 h-full ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:border-first" placeholder="Cari di Kabita" required />
                         <!-- <button type="submit"
                             class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 :bg-blue-600 :hover:bg-blue-700 :focus:ring-blue-800">Search</button> -->
                     </div>
@@ -73,20 +84,18 @@
             </label> -->
             <div class="flex w-auto lg:w-full justify-end items-center gap-3 h-full">
                 <div class="flex">
-                    <button type="button" onclick="my_modal_1.showModal()"
-                        class="focus:outline-none text-white hover:bg-gray-200 font-medium rounded-md text-sm w-12 aspect-square">
+                    <button type="button" onclick="my_modal_1.showModal()" class="focus:outline-none text-white hover:bg-gray-200 font-medium rounded-md text-sm w-12 aspect-square">
                         <i class="text-gray-600 fa-solid fa-bell fa-lg"></i>
                     </button>
-                    <button type="button" onclick="my_modal_1.showModal()"
-                        class="focus:outline-none text-white hover:bg-gray-200 font-medium rounded-md text-sm w-12  aspect-square">
+                    <button type="button" onclick="my_modal_1.showModal()" class="focus:outline-none text-white hover:bg-gray-200 font-medium rounded-md text-sm w-12  aspect-square">
                         <i class="text-gray-600 fa-solid fa-cart-shopping fa-lg"></i>
                     </button>
                 </div>
-                <div class="hidden lg:flex items-center gap-2 hover:bg-gray-200 py-1 px-2 rounded-md">
+                <div class="hidden lg:flex items-center gap-2 hover:bg-gray-200 py-1 px-2 rounded-md" onclick="document.location.href ='dashboard_admin.php'">
                     <img class="w-10 rounded-full" src="image/avatar-biru.jpg" alt="">
-                    <p class="font-semibold text-nowrap">Mochamad Tegar Santoso</p>
+                    <p class="font-semibold text-nowrap"><?= $_SESSION['username']; ?></p>
                 </div>
-            </div>  
+            </div>
             <!-- <nav aria-label="Header Navigation"
                 class="peer-checked:mt-4 peer-checked:max-h-56 flex max-h-0 w-full flex-col items-center justify-between overflow-hidden transition-all md:ml-24 md:max-h-full md:flex-row md:items-start">
                 <ul
@@ -116,8 +125,7 @@
                         <img src="image/ayam-goreng.jpg" class="h-45 rounded-lg" />
                     </div>
                 </div>
-                <div
-                    class="flex flex-col w-full lg:w-1/3 mt-4 lg:mt-0 px-4 gap-2 rounded-lg transition duration-300 font-poppins">
+                <div class="flex flex-col w-full lg:w-1/3 mt-4 lg:mt-0 px-4 gap-2 rounded-lg transition duration-300 font-poppins">
                     <div class="flex flex-col">
                         <p class="text-2xl font-bold">
                             Ayam Goreng
@@ -150,17 +158,21 @@
                         </div>
                         <div class="mt-2 flex items-center justify-between">
                             <div class="flex items-center justify-center">
-                                <button
-                                    class="text-first px-3 py-2 border-2 border-first rounded-l-lg hover:text-white hover:bg-first w-full">
-                                    <i class="fa-solid fa-minus"></i>
-                                </button>
-                                <div class="px-4 py-2 border-y-2 border-first">
-                                    <p class="text-center">10</p>
+                                <div class="w-8 h-8">
+                                    <button class="w-full h-full text-first border-2 border-first rounded-l-lg hover:text-white hover:bg-first">
+                                        <i class="fa-solid fa-minus"></i>
+                                    </button>
                                 </div>
-                                <button
-                                    class="text-first px-3 py-2 border-2 border-first rounded-r-lg hover:text-white hover:bg-first w-full">
-                                    <i class="fa-solid fa-plus"></i>
-                                </button>
+                                <div class="w-8 h-8">                                   
+                                    <button class="flex justify-center w-full h-full text-first text-sm px-3 py-1 border-y-2 border-first">
+                                        <p class="text-center">10</p>
+                                    </button>
+                                </div>
+                                <div class="w-8 h-8">
+                                    <button class="w-full h-full text-first border-2 border-first rounded-r-lg hover:text-white hover:bg-first">
+                                        <i class="fa-solid fa-plus"></i>
+                                    </button>
+                                </div>
                             </div>
                             <p>Stok total : 20</p>
                         </div>
@@ -193,17 +205,21 @@
                                 </div>
                                 <div class="flex items-center justify-between">
                                     <div class="flex items-center justify-center">
-                                        <button
-                                            class="text-first text-sm px-3 py-1 border-2 border-first rounded-l-lg hover:text-white hover:bg-first w-full">
-                                            <i class="fa-solid fa-minus"></i>
-                                        </button>
-                                        <div class="px-4 py-1 border-y-2 border-first">
-                                            <p class="text-sm text-center">10</p>
+                                        <div class="w-8 h-8">
+                                            <button class="w-full h-full text-first text-sm px-3 py-1 border-2 border-first rounded-l-lg hover:text-white hover:bg-first">
+                                                <i class="fa-solid fa-minus"></i>
+                                            </button>
                                         </div>
-                                        <button
-                                            class="text-first text-sm px-3 py-1 border-2 border-first rounded-r-lg hover:text-white hover:bg-first w-full">
-                                            <i class="fa-solid fa-plus"></i>
-                                        </button>
+                                        <div class="w-8 h-8">
+                                            <button class="flex justify-center w-full h-full text-first text-sm px-3 py-1 border-y-2 border-first">
+                                                <p class="text-sm text-center">10</p>
+                                            </button>
+                                        </div>
+                                        <div class="w-8 h-8">
+                                            <button class="w-full h-full text-first text-sm px-3 py-1 border-2 border-first rounded-r-lg hover:text-white hover:bg-first">
+                                                <i class="fa-solid fa-plus"></i>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -216,38 +232,30 @@
                             <div class="relative h-8">
 
                             </div>
-                            <div
-                                class="absolute bottom-0 left-0 p-2 w-full flex flex-row lg:flex-col gap-2 items-center justify-center">
-                                <button href=""
-                                    class="bg-first font-poppins font-semibold rounded-lg px-4 py-2 border-2 border-first text-white text-center w-full hover:bg-secondary">
+                            <div class="absolute bottom-0 left-0 p-2 w-full flex flex-row lg:flex-col gap-2 items-center justify-center">
+                                <button href="" class="bg-first font-poppins font-semibold rounded-lg px-4 py-2 border-2 border-first text-white text-center w-full hover:bg-secondary">
                                     + Keranjang
                                 </button>
-                                <button href=""
-                                    class="bg-white font-poppins font-semibold rounded-lg px-4 py-2 border-2 border-first text-first text-center w-full hover:bg-first hover:text-white hover:border-white">
+                                <button href="" class="bg-white font-poppins font-semibold rounded-lg px-4 py-2 border-2 border-first text-first text-center w-full hover:bg-first hover:text-white hover:border-white">
                                     Beli
                                 </button>
                             </div>
                         </div>
                     </dialog>
                     <div class="pt-2">
-                        <div
-                            class="lg:hidden drop-shadow-2xl fixed bottom-0 lg:static w-full bg-white lg:bg-transparent p-2 flex flex-row lg:flex-col gap-2 items-center justify-center">
-                            <button href="" onclick="my_modal.showModal()"
-                                class="bg-first font-poppins font-semibold rounded-lg px-4 py-2 border-2 border-first text-white text-center w-full hover:bg-secondary">
+                        <div class="lg:hidden drop-shadow-2xl fixed bottom-0 lg:static w-full bg-white lg:bg-transparent p-2 flex flex-row lg:flex-col gap-2 items-center justify-center">
+                            <button href="" onclick="my_modal.showModal()" class="bg-first font-poppins font-semibold rounded-lg px-4 py-2 border-2 border-first text-white text-center w-full hover:bg-secondary">
                                 + Keranjang
                             </button>
-                            <button href="" onclick="my_modal.showModal()"
-                                class="bg-white font-poppins font-semibold rounded-lg px-4 py-2 border-2 border-first text-first text-center w-full hover:bg-first hover:text-white hover:border-white">
+                            <button href="" onclick="my_modal.showModal()" class="bg-white font-poppins font-semibold rounded-lg px-4 py-2 border-2 border-first text-first text-center w-full hover:bg-first hover:text-white hover:border-white">
                                 Beli
                             </button>
                         </div>
                         <div class="hidden lg:flex px-4 flex-row lg:flex-col gap-3 items-center justify-center">
-                            <button href=""
-                                class="bg-first font-poppins font-semibold rounded-lg px-4 py-2 border-2 border-first text-white text-center w-full hover:bg-secondary">
+                            <button href="" class="bg-first font-poppins font-semibold rounded-lg px-4 py-2 border-2 border-first text-white text-center w-full hover:bg-secondary">
                                 + Keranjang
                             </button>
-                            <button href=""
-                                class="bg-white font-poppins font-semibold rounded-lg px-4 py-2 border-2 border-first text-first text-center w-full hover:bg-first hover:text-white hover:border-white">
+                            <button href="" class="bg-white font-poppins font-semibold rounded-lg px-4 py-2 border-2 border-first text-first text-center w-full hover:bg-first hover:text-white hover:border-white">
                                 Beli
                             </button>
                         </div>

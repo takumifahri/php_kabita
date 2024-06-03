@@ -1,13 +1,20 @@
-<?php 
-    session_start();
-    
-    require 'function.php';
- 
- 
-     // $namaUser = query("SELECT nama FROM users");
-    if(isset($_SESSION["login"])){
-        echo '<script>document.getElementById("login_button").style.display = "none";</script>';
-    }
+<?php
+session_start();
+
+require 'function.php';
+
+
+// $namaUser = query("SELECT nama FROM users");
+// if(isset($_SESSION["login"])){
+//     echo '<script>document.getElementById("login_button").style.display = "none";</script>';
+// }
+
+if (isset($_SESSION['username'])) {
+    $username = $_SESSION['username'];
+    echo "Hello, " . $username . "!";
+} else {
+    // Handle case where user is not logged in
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -33,9 +40,8 @@
 
 <body>
     <header class="font-poppins shadow fixed top-0 w-full z-10 h-16 bg-white">
-        <div
-            class="bg-white relative flex align-items-center flex-row gap-5 overflow-hidden px-4 py-4 md:px-36 md:mx-auto md:flex-row md:items-center">
-            <a href="index.php" class="flex items-center whitespace-nowrap text-2xl">
+        <div class="bg-white relative flex align-items-center flex-row gap-5 overflow-hidden px-4 py-4 md:px-36 md:mx-auto md:flex-row md:items-center">
+            <a onclick="document.location.href ='dashboard.php'" class="cursor-pointer flex items-center whitespace-nowrap text-2xl">
                 <!-- <span class="mr-2 text-4xl text-blue-600">
                     <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em"
                         preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
@@ -51,12 +57,12 @@
                     <!-- <label for="default-search"
                         class="mb-2 text-sm font-medium text-gray-900 sr-only :text-white">Search
                     </label> -->
-                    <div class="relative">
+                    <div class="relative h-full">
                         <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                             <i class="fa-solid fa-magnifying-glass"></i>
                         </div>
                         <input type="search" id="default-search"
-                            class="block w-full px-2 py-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:border-first"
+                            class="block w-full pe-2 py-2 h-full ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:border-first"
                             placeholder="Cari di Kabita" required />
                         <!-- <button type="submit"
                             class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 :bg-blue-600 :hover:bg-blue-700 :focus:ring-blue-800">Search</button> -->
@@ -75,18 +81,16 @@
             </label> -->
             <div class="hidden lg:flex w-full justify-end items-center gap-3 h-full">
                 <div class="flex">
-                    <button type="button" onclick="my_modal_1.showModal()"
-                        class="focus:outline-none text-white hover:bg-gray-200 font-medium rounded-md text-sm w-12 aspect-square">
+                    <button type="button" onclick="my_modal_1.showModal()" class="focus:outline-none text-white hover:bg-gray-200 font-medium rounded-md text-sm w-12 aspect-square">
                         <i class="text-gray-600 fa-solid fa-bell fa-lg"></i>
                     </button>
-                    <button type="button" onclick="my_modal_1.showModal()"
-                        class="focus:outline-none text-white hover:bg-gray-200 font-medium rounded-md text-sm w-12  aspect-square">
+                    <button type="button" onclick="my_modal_1.showModal()" class="focus:outline-none text-white hover:bg-gray-200 font-medium rounded-md text-sm w-12  aspect-square">
                         <i class="text-gray-600 fa-solid fa-cart-shopping fa-lg"></i>
                     </button>
                 </div>
                 <div class="flex items-center gap-2 hover:bg-gray-200 py-1 px-2 rounded-md" onclick="document.location.href ='dashboard_admin.php'">
                     <img class="w-10 rounded-full" src="image/avatar-biru.jpg" alt="">
-                    <p class="font-semibold text-nowrap"><?= $_SESSION[$username];?></p>
+                    <p class="font-semibold text-nowrap"><?= $_SESSION['username']; ?></p>
                 </div>
             </div>
             <!-- <nav aria-label="Header Navigation"
@@ -109,6 +113,7 @@
             </nav> -->
         </div>
     </header>
+
     <main>
         <!-- Menu -->
         <section id="menu" class="mt-4 px-4 lg:px-36 py-20 bg-gray-100">
@@ -116,8 +121,7 @@
                 <div class="w-full carousel rounded-box">
                     <div class="carousel-item w-full">
                         <a href="detail_jumat_berkah.html">
-                            <img src="image/dashboard-slider.png" class="w-full"
-                                alt="Tailwind CSS Carousel component" />
+                            <img src="image/dashboard-slider.png" class="w-full" alt="Tailwind CSS Carousel component" />
                         </a>
                     </div>
                     <div class="carousel-item w-full">
@@ -142,19 +146,16 @@
                 <!-- Accordion Horizontal -->
                 <div class="flex justify-center font-poppins mb-4">
                     <div class="w-32 h-16  mx-2 flex items-center justify-center cursor-pointer">
-                        <button
-                            class="w-full py-2 border-b-4 border-first hover:text-first focus:border-first focus:text-first focus:border-first text-first">
+                        <button class="w-full py-2 border-b-4 border-first hover:text-first focus:border-first focus:text-first focus:border-first text-first">
                             All</button>
                     </div>
                     <div class="w-32 h-16  mx-2 flex items-center justify-center cursor-pointer">
-                        <button
-                            class="w-full py-2 border-b-4 border-gray-100  hover:text-first focus:border-first focus:text-first focus:border-first ">
+                        <button class="w-full py-2 border-b-4 border-gray-100  hover:text-first focus:border-first focus:text-first focus:border-first ">
                             Makanan
                         </button>
                     </div>
                     <div class="w-32 h-16  mx-2 flex items-center justify-center cursor-pointer">
-                        <button
-                            class="w-full py-2 border-b-4 border-gray-100  hover:text-first focus:border-first focus:text-first focus:border-first ">
+                        <button class="w-full py-2 border-b-4 border-gray-100  hover:text-first focus:border-first focus:text-first focus:border-first ">
                             Minuman
                         </button>
                     </div>
@@ -162,10 +163,8 @@
 
                 <!-- Card -->
                 <div class="grid grid-cols-2 lg:grid-cols-6 gap-2 lg:justify-center">
-                    <a href="detail.html"
-                        class="flex flex-col w-full lg:w-full bg-white rounded-lg shadow-md transition-transform duration-300 transform hover:border-2 hover:border-first hover:-translate-y-1 delay-100">
-                        <img src="image/ayam-goreng.jpg" alt="Ayam Goreng"
-                            class="w-full object-cover mb-2 rounded-t-lg">
+                    <a href="detail.php" class="flex flex-col w-full lg:w-full bg-white rounded-lg shadow-md transition-transform duration-300 transform hover:border-2 hover:border-first hover:-translate-y-1 delay-100">
+                        <img src="image/ayam-goreng.jpg" alt="Ayam Goreng" class="w-full object-cover mb-2 rounded-t-lg">
                         <h3 class="text-sm lg:text-lg font-poppins font-semibold">Ayam Goreng</h3>
                         <div class="flex items-center justify-center gap-1">
                             <i class="fa-solid fa-star text-yellow-400"></i>
@@ -173,15 +172,12 @@
                         </div>
                         <div class="font-poppins text-gray-700 mb-2">Rp 10.000</div>
                         <div class="mt-auto">
-                            <button
-                                class="bg-primary rounded-md px-4 py-1 font-poppins text-white mb-4 hover:bg-secondary">Beli</button>
+                            <button class="bg-first rounded-md px-4 py-1 font-poppins text-white mb-4 hover:bg-secondary">Beli</button>
                         </div>
                     </a>
 
-                    <a href="detail.html"
-                        class="flex flex-col w-full lg:w-full bg-white rounded-lg shadow-md transition-transform duration-300 transform hover:border-2 hover:border-first hover:-translate-y-1 delay-100">
-                        <img src="image/es-jeruk.jpg" alt="Es Jeruk"
-                            class="w-full object-cover mb-2 rounded-t-lg">
+                    <a href="detail.php" class="flex flex-col w-full lg:w-full bg-white rounded-lg shadow-md transition-transform duration-300 transform hover:border-2 hover:border-first hover:-translate-y-1 delay-100">
+                        <img src="image/es-jeruk.jpg" alt="Es Jeruk" class="w-full object-cover mb-2 rounded-t-lg">
                         <h3 class="text-sm lg:text-lg font-poppins font-semibold">Es Jeruk</h3>
                         <div class="flex items-center justify-center gap-1">
                             <i class="fa-solid fa-star text-yellow-400"></i>
@@ -189,15 +185,12 @@
                         </div>
                         <div class="font-poppins text-gray-700 mb-2">Rp 7.000</div>
                         <div class="mt-auto">
-                            <button
-                                class="bg-primary rounded-md px-4 py-1 font-poppins text-white mb-4 hover:bg-secondary">Beli</button>
+                            <button class="bg-first rounded-md px-4 py-1 font-poppins text-white mb-4 hover:bg-secondary">Beli</button>
                         </div>
                     </a>
 
-                    <a href="detail.html"
-                        class="flex flex-col w-full lg:w-full bg-white rounded-lg shadow-md transition-transform duration-300 transform hover:border-2 hover:border-first hover:-translate-y-1 delay-100">
-                        <img src="image/nasi.jpg" alt="Nasi"
-                            class="w-full object-cover mb-2 rounded-t-lg">
+                    <a href="detail.php" class="flex flex-col w-full lg:w-full bg-white rounded-lg shadow-md transition-transform duration-300 transform hover:border-2 hover:border-first hover:-translate-y-1 delay-100">
+                        <img src="image/nasi.jpg" alt="Nasi" class="w-full object-cover mb-2 rounded-t-lg">
                         <h3 class="text-sm lg:text-lg font-poppins font-semibold">Nasi</h3>
                         <div class="flex items-center justify-center gap-1">
                             <i class="fa-solid fa-star text-yellow-400"></i>
@@ -205,15 +198,12 @@
                         </div>
                         <div class="font-poppins text-gray-700 mb-2">Rp 3.000</div>
                         <div class="mt-auto">
-                            <button
-                                class="bg-primary rounded-md px-4 py-1 font-poppins text-white mb-4 hover:bg-secondary">Beli</button>
+                            <button class="bg-first rounded-md px-4 py-1 font-poppins text-white mb-4 hover:bg-secondary">Beli</button>
                         </div>
                     </a>
 
-                    <a href="detail.html"
-                        class="flex flex-col w-full lg:w-full bg-white rounded-lg shadow-md transition-transform duration-300 transform hover:border-2 hover:border-first hover:-translate-y-1 delay-100">
-                        <img src="image/es-teh.jpg" alt="Es teh"
-                            class="w-full object-cover mb-2 rounded-t-lg">
+                    <a href="detail.php" class="flex flex-col w-full lg:w-full bg-white rounded-lg shadow-md transition-transform duration-300 transform hover:border-2 hover:border-first hover:-translate-y-1 delay-100">
+                        <img src="image/es-teh.jpg" alt="Es teh" class="w-full object-cover mb-2 rounded-t-lg">
                         <h3 class="text-sm lg:text-lg font-poppins font-semibold">Es teh</h3>
                         <div class="flex items-center justify-center gap-1">
                             <i class="fa-solid fa-star text-yellow-400"></i>
@@ -221,15 +211,12 @@
                         </div>
                         <div class="font-poppins text-gray-700 mb-2">Rp 5.000</div>
                         <div class="mt-auto">
-                            <button
-                                class="bg-primary rounded-md px-4 py-1 font-poppins text-white mb-4 hover:bg-secondary">Beli</button>
+                            <button class="bg-first rounded-md px-4 py-1 font-poppins text-white mb-4 hover:bg-secondary">Beli</button>
                         </div>
                     </a>
 
-                    <a href="detail.html"
-                        class="flex flex-col w-full lg:w-full bg-white rounded-lg shadow-md transition-transform duration-300 transform hover:border-2 hover:border-first hover:-translate-y-1 delay-100">
-                        <img src="image/ikan goreng.jpg" alt="Ikan Goreng"
-                            class="w-full object-cover mb-2 rounded-t-lg">
+                    <a href="detail.php" class="flex flex-col w-full lg:w-full bg-white rounded-lg shadow-md transition-transform duration-300 transform hover:border-2 hover:border-first hover:-translate-y-1 delay-100">
+                        <img src="image/ikan goreng.jpg" alt="Ikan Goreng" class="w-full object-cover mb-2 rounded-t-lg">
                         <h3 class="text-sm lg:text-lg font-poppins font-semibold">Ikan Goreng</h3>
                         <div class="flex items-center justify-center gap-1">
                             <i class="fa-solid fa-star text-yellow-400"></i>
@@ -237,15 +224,12 @@
                         </div>
                         <div class="font-poppins text-gray-700 mb-2">Rp 10.000</div>
                         <div class="mt-auto">
-                            <button
-                                class="bg-primary rounded-md px-4 py-1 font-poppins text-white mb-4 hover:bg-secondary">Beli</button>
+                            <button class="bg-first rounded-md px-4 py-1 font-poppins text-white mb-4 hover:bg-secondary">Beli</button>
                         </div>
-                    </a>                    
+                    </a>
 
-                    <a href="detail.html"
-                        class="flex flex-col w-full lg:w-full bg-white rounded-lg shadow-md transition-transform duration-300 transform hover:border-2 hover:border-first hover:-translate-y-1 delay-100">
-                        <img src="image/ayam-goreng.jpg" alt="Ayam Goreng"
-                            class="w-full object-cover mb-2 rounded-t-lg">
+                    <a href="detail.php" class="flex flex-col w-full lg:w-full bg-white rounded-lg shadow-md transition-transform duration-300 transform hover:border-2 hover:border-first hover:-translate-y-1 delay-100">
+                        <img src="image/ayam-goreng.jpg" alt="Ayam Goreng" class="w-full object-cover mb-2 rounded-t-lg">
                         <h3 class="text-sm lg:text-lg font-poppins font-semibold">Ayam Goreng</h3>
                         <div class="flex items-center justify-center gap-1">
                             <i class="fa-solid fa-star text-yellow-400"></i>
@@ -253,15 +237,12 @@
                         </div>
                         <div class="font-poppins text-gray-700 mb-2">Rp 10.000</div>
                         <div class="mt-auto">
-                            <button
-                                class="bg-primary rounded-md px-4 py-1 font-poppins text-white mb-4 hover:bg-secondary">Beli</button>
+                            <button class="bg-first rounded-md px-4 py-1 font-poppins text-white mb-4 hover:bg-secondary">Beli</button>
                         </div>
                     </a>
 
-                    <a href="detail.html"
-                        class="flex flex-col w-full lg:w-full bg-white rounded-lg shadow-md transition-transform duration-300 transform hover:border-2 hover:border-first hover:-translate-y-1 delay-100">
-                        <img src="image/es-jeruk.jpg" alt="Es Jeruk"
-                            class="w-full object-cover mb-2 rounded-t-lg">
+                    <a href="detail.php" class="flex flex-col w-full lg:w-full bg-white rounded-lg shadow-md transition-transform duration-300 transform hover:border-2 hover:border-first hover:-translate-y-1 delay-100">
+                        <img src="image/es-jeruk.jpg" alt="Es Jeruk" class="w-full object-cover mb-2 rounded-t-lg">
                         <h3 class="text-sm lg:text-lg font-poppins font-semibold">Es Jeruk</h3>
                         <div class="flex items-center justify-center gap-1">
                             <i class="fa-solid fa-star text-yellow-400"></i>
@@ -269,15 +250,12 @@
                         </div>
                         <div class="font-poppins text-gray-700 mb-2">Rp 7.000</div>
                         <div class="mt-auto">
-                            <button
-                                class="bg-primary rounded-md px-4 py-1 font-poppins text-white mb-4 hover:bg-secondary">Beli</button>
+                            <button class="bg-first rounded-md px-4 py-1 font-poppins text-white mb-4 hover:bg-secondary">Beli</button>
                         </div>
                     </a>
 
-                    <a href="detail.html"
-                        class="flex flex-col w-full lg:w-full bg-white rounded-lg shadow-md transition-transform duration-300 transform hover:border-2 hover:border-first hover:-translate-y-1 delay-100">
-                        <img src="image/nasi.jpg" alt="Nasi"
-                            class="w-full object-cover mb-2 rounded-t-lg">
+                    <a href="detail.php" class="flex flex-col w-full lg:w-full bg-white rounded-lg shadow-md transition-transform duration-300 transform hover:border-2 hover:border-first hover:-translate-y-1 delay-100">
+                        <img src="image/nasi.jpg" alt="Nasi" class="w-full object-cover mb-2 rounded-t-lg">
                         <h3 class="text-sm lg:text-lg font-poppins font-semibold">Nasi</h3>
                         <div class="flex items-center justify-center gap-1">
                             <i class="fa-solid fa-star text-yellow-400"></i>
@@ -285,15 +263,12 @@
                         </div>
                         <div class="font-poppins text-gray-700 mb-2">Rp 3.000</div>
                         <div class="mt-auto">
-                            <button
-                                class="bg-primary rounded-md px-4 py-1 font-poppins text-white mb-4 hover:bg-secondary">Beli</button>
+                            <button class="bg-first rounded-md px-4 py-1 font-poppins text-white mb-4 hover:bg-secondary">Beli</button>
                         </div>
                     </a>
 
-                    <a href="detail.html"
-                        class="flex flex-col w-full lg:w-full bg-white rounded-lg shadow-md transition-transform duration-300 transform hover:border-2 hover:border-first hover:-translate-y-1 delay-100">
-                        <img src="image/es-teh.jpg" alt="Es teh"
-                            class="w-full object-cover mb-2 rounded-t-lg">
+                    <a href="detail.php" class="flex flex-col w-full lg:w-full bg-white rounded-lg shadow-md transition-transform duration-300 transform hover:border-2 hover:border-first hover:-translate-y-1 delay-100">
+                        <img src="image/es-teh.jpg" alt="Es teh" class="w-full object-cover mb-2 rounded-t-lg">
                         <h3 class="text-sm lg:text-lg font-poppins font-semibold">Es teh</h3>
                         <div class="flex items-center justify-center gap-1">
                             <i class="fa-solid fa-star text-yellow-400"></i>
@@ -301,15 +276,12 @@
                         </div>
                         <div class="font-poppins text-gray-700 mb-2">Rp 5.000</div>
                         <div class="mt-auto">
-                            <button
-                                class="bg-primary rounded-md px-4 py-1 font-poppins text-white mb-4 hover:bg-secondary">Beli</button>
+                            <button class="bg-first rounded-md px-4 py-1 font-poppins text-white mb-4 hover:bg-secondary">Beli</button>
                         </div>
                     </a>
 
-                    <a href="detail.html"
-                        class="flex flex-col w-full lg:w-full bg-white rounded-lg shadow-md transition-transform duration-300 transform hover:border-2 hover:border-first hover:-translate-y-1 delay-100">
-                        <img src="image/ikan goreng.jpg" alt="Ikan Goreng"
-                            class="w-full object-cover mb-2 rounded-t-lg">
+                    <a href="detail.php" class="flex flex-col w-full lg:w-full bg-white rounded-lg shadow-md transition-transform duration-300 transform hover:border-2 hover:border-first hover:-translate-y-1 delay-100">
+                        <img src="image/ikan goreng.jpg" alt="Ikan Goreng" class="w-full object-cover mb-2 rounded-t-lg">
                         <h3 class="text-sm lg:text-lg font-poppins font-semibold">Ikan Goreng</h3>
                         <div class="flex items-center justify-center gap-1">
                             <i class="fa-solid fa-star text-yellow-400"></i>
@@ -317,15 +289,12 @@
                         </div>
                         <div class="font-poppins text-gray-700 mb-2">Rp 10.000</div>
                         <div class="mt-auto">
-                            <button
-                                class="bg-primary rounded-md px-4 py-1 font-poppins text-white mb-4 hover:bg-secondary">Beli</button>
+                            <button class="bg-first rounded-md px-4 py-1 font-poppins text-white mb-4 hover:bg-secondary">Beli</button>
                         </div>
                     </a>
 
-                    <a href="detail.html"
-                        class="flex flex-col w-full lg:w-full bg-white rounded-lg shadow-md transition-transform duration-300 transform hover:border-2 hover:border-first hover:-translate-y-1 delay-100">
-                        <img src="image/ayam-goreng.jpg" alt="Ayam Goreng"
-                            class="w-full object-cover mb-2 rounded-t-lg">
+                    <a href="detail.php" class="flex flex-col w-full lg:w-full bg-white rounded-lg shadow-md transition-transform duration-300 transform hover:border-2 hover:border-first hover:-translate-y-1 delay-100">
+                        <img src="image/ayam-goreng.jpg" alt="Ayam Goreng" class="w-full object-cover mb-2 rounded-t-lg">
                         <h3 class="text-sm lg:text-lg font-poppins font-semibold">Ayam Goreng</h3>
                         <div class="flex items-center justify-center gap-1">
                             <i class="fa-solid fa-star text-yellow-400"></i>
@@ -333,15 +302,12 @@
                         </div>
                         <div class="font-poppins text-gray-700 mb-2">Rp 10.000</div>
                         <div class="mt-auto">
-                            <button
-                                class="bg-primary rounded-md px-4 py-1 font-poppins text-white mb-4 hover:bg-secondary">Beli</button>
+                            <button class="bg-first rounded-md px-4 py-1 font-poppins text-white mb-4 hover:bg-secondary">Beli</button>
                         </div>
                     </a>
 
-                    <a href="detail.html"
-                        class="flex flex-col w-full lg:w-full bg-white rounded-lg shadow-md transition-transform duration-300 transform hover:border-2 hover:border-first hover:-translate-y-1 delay-100">
-                        <img src="image/es-jeruk.jpg" alt="Es Jeruk"
-                            class="w-full object-cover mb-2 rounded-t-lg">
+                    <a href="detail.php" class="flex flex-col w-full lg:w-full bg-white rounded-lg shadow-md transition-transform duration-300 transform hover:border-2 hover:border-first hover:-translate-y-1 delay-100">
+                        <img src="image/es-jeruk.jpg" alt="Es Jeruk" class="w-full object-cover mb-2 rounded-t-lg">
                         <h3 class="text-sm lg:text-lg font-poppins font-semibold">Es Jeruk</h3>
                         <div class="flex items-center justify-center gap-1">
                             <i class="fa-solid fa-star text-yellow-400"></i>
@@ -349,20 +315,16 @@
                         </div>
                         <div class="font-poppins text-gray-700 mb-2">Rp 7.000</div>
                         <div class="mt-auto">
-                            <button
-                                class="bg-primary rounded-md px-4 py-1 font-poppins text-white mb-4 hover:bg-secondary">Beli</button>
+                            <button class="bg-first rounded-md px-4 py-1 font-poppins text-white mb-4 hover:bg-secondary">Beli</button>
                         </div>
-                    </a>dashboard.html
+                    </a>
 
-                </div>  
-
-                <button class="bg-primary rounded-md px-4 py-1 font-poppins text-white mb-4 hover:bg-secondary">Tambah Menu</button>
+                </div>
             </div>
         </section>
 
         <div class="pt-2">
-            <div
-                class="lg:hidden drop-shadow-2xl fixed bottom-0 lg:static w-full bg-white lg:bg-transparent p-2 flex flex-row lg:flex-col gap-2 items-center justify-center">
+            <div class="lg:hidden drop-shadow-2xl fixed bottom-0 lg:static w-full bg-white lg:bg-transparent p-2 flex flex-row lg:flex-col gap-2 items-center justify-center">
                 <!-- <button href="" onclick="my_modal.showModal()"
                     class="bg-first font-poppins font-semibold rounded-lg px-4 py-2 border-2 border-first text-white text-center w-full hover:bg-secondary">
                     <i class="fa-solid fa-cart-shopping"></i>
@@ -372,77 +334,57 @@
                     Beli
                 </button> -->
                 <div class="grid h-full max-w-lg grid-cols-5 mx-auto">
-                    <button data-tooltip-target="tooltip-home" type="button"
-                        class="inline-flex flex-col items-center justify-center px-5 rounded-s-md hover:bg-gray-100 dark:hover:bg-gray-800 group">
+                    <button data-tooltip-target="tooltip-home" type="button" class="inline-flex flex-col items-center justify-center px-5 rounded-s-md hover:bg-gray-100 dark:hover:bg-gray-800 group">
                         <!-- <svg class="w-5 h-5 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500"
                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                             <path
                                 d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z" />
                         </svg> -->
-                        <i
-                            class="fa-solid fa-home text-gray-500 dark:text-gray-400 group-hover:text-first dark:group-hover:text-first"></i>
+                        <i class="fa-solid fa-home text-gray-500 dark:text-gray-400 group-hover:text-first dark:group-hover:text-first"></i>
                         <span class="sr-only">Home</span>
                     </button>
-                    <div id="tooltip-home" role="tooltip"
-                        class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+                    <div id="tooltip-home" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
                         Home
                         <div class="tooltip-arrow" data-popper-arrow></div>
                     </div>
-                    <button data-tooltip-target="tooltip-wallet" type="button"
-                        class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-100 dark:hover:bg-gray-800 group">
-                        <svg class="w-5 h-5 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-first dark:group-hover:text-first"
-                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                            viewBox="0 0 20 20">
-                            <path
-                                d="M11.074 4 8.442.408A.95.95 0 0 0 7.014.254L2.926 4h8.148ZM9 13v-1a4 4 0 0 1 4-4h6V6a1 1 0 0 0-1-1H1a1 1 0 0 0-1 1v13a1 1 0 0 0 1 1h17a1 1 0 0 0 1-1v-2h-6a4 4 0 0 1-4-4Z" />
-                            <path
-                                d="M19 10h-6a2 2 0 0 0-2 2v1a2 2 0 0 0 2 2h6a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1Zm-4.5 3.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2ZM12.62 4h2.78L12.539.41a1.086 1.086 0 1 0-1.7 1.352L12.62 4Z" />
+                    <button data-tooltip-target="tooltip-wallet" type="button" class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-100 dark:hover:bg-gray-800 group">
+                        <svg class="w-5 h-5 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-first dark:group-hover:text-first" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M11.074 4 8.442.408A.95.95 0 0 0 7.014.254L2.926 4h8.148ZM9 13v-1a4 4 0 0 1 4-4h6V6a1 1 0 0 0-1-1H1a1 1 0 0 0-1 1v13a1 1 0 0 0 1 1h17a1 1 0 0 0 1-1v-2h-6a4 4 0 0 1-4-4Z" />
+                            <path d="M19 10h-6a2 2 0 0 0-2 2v1a2 2 0 0 0 2 2h6a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1Zm-4.5 3.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2ZM12.62 4h2.78L12.539.41a1.086 1.086 0 1 0-1.7 1.352L12.62 4Z" />
                         </svg>
                         <span class="sr-only">Wallet</span>
                     </button>
-                    <div id="tooltip-wallet" role="tooltip"
-                        class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+                    <div id="tooltip-wallet" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
                         Wallet
                         <div class="tooltip-arrow" data-popper-arrow></div>
                     </div>
                     <div class="flex items-center justify-center">
-                        <button data-tooltip-target="tooltip-new" type="button"
-                            class="inline-flex items-center justify-center w-10 h-10 font-medium bg-first rounded-full group focus:ring-4 focus:bg-secondary focus:ring-secondary focus:outline-none dark:focus:ring-secondary">
+                        <button data-tooltip-target="tooltip-new" type="button" class="inline-flex items-center justify-center w-10 h-10 font-medium bg-first rounded-full group focus:ring-4 focus:bg-secondary focus:ring-secondary focus:outline-none dark:focus:ring-secondary">
                             <i class="text-white fa-solid fa-cart-shopping"></i>
                             <span class="sr-only">New item</span>
                         </button>
                     </div>
-                    <div id="tooltip-new" role="tooltip"
-                        class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+                    <div id="tooltip-new" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
                         Create new item
                         <div class="tooltip-arrow" data-popper-arrow></div>
                     </div>
-                    <button data-tooltip-target="tooltip-settings" type="button"
-                        class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group">
-                        <svg class="w-5 h-5 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-first dark:group-hover:text-first"
-                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 12.25V1m0 11.25a2.25 2.25 0 0 0 0 4.5m0-4.5a2.25 2.25 0 0 1 0 4.5M4 19v-2.25m6-13.5V1m0 2.25a2.25 2.25 0 0 0 0 4.5m0-4.5a2.25 2.25 0 0 1 0 4.5M10 19V7.75m6 4.5V1m0 11.25a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5ZM16 19v-2" />
+                    <button data-tooltip-target="tooltip-settings" type="button" class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group">
+                        <svg class="w-5 h-5 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-first dark:group-hover:text-first" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 12.25V1m0 11.25a2.25 2.25 0 0 0 0 4.5m0-4.5a2.25 2.25 0 0 1 0 4.5M4 19v-2.25m6-13.5V1m0 2.25a2.25 2.25 0 0 0 0 4.5m0-4.5a2.25 2.25 0 0 1 0 4.5M10 19V7.75m6 4.5V1m0 11.25a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5ZM16 19v-2" />
                         </svg>
                         <span class="sr-only">Settings</span>
                     </button>
-                    <div id="tooltip-settings" role="tooltip"
-                        class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+                    <div id="tooltip-settings" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
                         Settings
                         <div class="tooltip-arrow" data-popper-arrow></div>
                     </div>
-                    <button data-tooltip-target="tooltip-profile" type="button"
-                        class="inline-flex flex-col items-center justify-center px-5 rounded-e-full hover:bg-gray-50 dark:hover:bg-gray-800 group">
-                        <svg class="w-5 h-5 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-first dark:group-hover:text-first"
-                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                            viewBox="0 0 20 20">
-                            <path
-                                d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm0 5a3 3 0 1 1 0 6 3 3 0 0 1 0-6Zm0 13a8.949 8.949 0 0 1-4.951-1.488A3.987 3.987 0 0 1 9 13h2a3.987 3.987 0 0 1 3.951 3.512A8.949 8.949 0 0 1 10 18Z" />
+                    <button data-tooltip-target="tooltip-profile" type="button" class="inline-flex flex-col items-center justify-center px-5 rounded-e-full hover:bg-gray-50 dark:hover:bg-gray-800 group">
+                        <svg class="w-5 h-5 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-first dark:group-hover:text-first" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm0 5a3 3 0 1 1 0 6 3 3 0 0 1 0-6Zm0 13a8.949 8.949 0 0 1-4.951-1.488A3.987 3.987 0 0 1 9 13h2a3.987 3.987 0 0 1 3.951 3.512A8.949 8.949 0 0 1 10 18Z" />
                         </svg>
                         <span class="sr-only">Profile</span>
                     </button>
-                    <div id="tooltip-profile" role="tooltip"
-                        class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+                    <div id="tooltip-profile" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
                         Profile
                         <div class="tooltip-arrow" data-popper-arrow></div>
                     </div>
@@ -496,7 +438,7 @@
         <script src="js/tailwind.config.js"></script>
 
         <script>
-            document.addEventListener("DOMContentLoaded", function () {
+            document.addEventListener("DOMContentLoaded", function() {
                 const sections = document.querySelectorAll("section");
                 // const navDivs = document.querySelectorAll("nav div div");
                 // const navLinks = document.querySelectorAll("nav div div a");
