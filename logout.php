@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?php
 session_start();
 
@@ -18,14 +17,3 @@ session_destroy();
 header("Location: index.php");
 exit;
 ?>
-=======
-<?php 
-    session_start();
-    $_SESSION = [];
-    session_unset();
-    session_destroy();  
-
-    header("Location: index.php");
-    exit;
-?>
->>>>>>> a6d1ed9fc0fbbbb8e5dcdda7ab2731dbf2b2b9f7
