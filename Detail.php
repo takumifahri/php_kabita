@@ -43,7 +43,7 @@ if (isset($_SESSION['username'])) {
     <!-- Navbar -->
     <header class="font-poppins shadow fixed top-0 w-full z-10 h-16 bg-white">
         <div class="bg-white relative flex align-items-center flex-row gap-2 lg:gap-5 overflow-hidden px-4 py-4 md:px-36 md:mx-auto md:flex-row md:items-center">
-            <a href="dashboard.html" class="flex items-center whitespace-nowrap text-2xl">
+            <a href="dashboard.php" class="flex items-center whitespace-nowrap text-2xl">
                 <!-- <span class="mr-2 text-4xl text-blue-600">
                     <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em"
                         preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
